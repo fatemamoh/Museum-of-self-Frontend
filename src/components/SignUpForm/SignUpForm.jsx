@@ -1,5 +1,3 @@
-// SignUpForm.jsx
-
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import * as authService from '../../services/authService';
@@ -10,12 +8,15 @@ const SignUpForm = () => {
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
+    email: '', 
     password: '',
     passwordConf: '',
+    masterPin: '', 
   });
+
   const { setUser } = useContext(UserContext);
 
-  const { username, password, passwordConf } = formData;
+  const { username, email, password, passwordConf, masterPin } = formData;
 
   const handleChange = (evt) => {
     setMessage('');
@@ -24,34 +25,56 @@ const SignUpForm = () => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const user = await authService.signUp(formData)
-    setUser(user); // this line will print the form data to the console
-    navigate('/')
+    try {
+      const user = await authService.signUp(formData);
+      setUser(user);
+      navigate('/');
+    } catch (err) {
+      setMessage(err.response.data.err);
+    }
   };
 
   const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
+    return !(
+      username && 
+      email && 
+      password && 
+      password === passwordConf && 
+      masterPin
+    );
   };
 
   return (
     <main>
       <h1>Sign Up</h1>
-      <p>{message}</p>
+      <p style={{ color: 'red' }}>{message}</p>
       <form onSubmit={handleSubmit}>
-        {/* Username Field */}
         <div>
           <label htmlFor='username'>Username:</label>
           <input
             type='text'
-            id='name'
+            id='username'
             value={username}
             name='username'
+            placeholder="Choose a display name"
             onChange={handleChange}
             required
           />
         </div>
 
-        {/* Password Field */}
+        <div>
+          <label htmlFor='email'>Email:</label>
+          <input
+            type='email'
+            id='email'
+            value={email}
+            name='email'
+            placeholder="example@mail.com"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
         <div>
           <label htmlFor='password'>Password:</label>
           <input
@@ -59,12 +82,12 @@ const SignUpForm = () => {
             id='password'
             value={password}
             name='password'
+            placeholder="8+ characters, letter & number"
             onChange={handleChange}
             required
           />
         </div>
 
-        {/* Coinfirm Password */}
         <div>
           <label htmlFor='confirm'>Confirm Password:</label>
           <input
@@ -72,15 +95,28 @@ const SignUpForm = () => {
             id='confirm'
             value={passwordConf}
             name='passwordConf'
+            placeholder="Re-enter password"
             onChange={handleChange}
             required
           />
         </div>
 
-        {/* Form Actions */}
+        <div>
+          <label htmlFor='masterPin'>MasterPIN (4-6 digits):</label>
+          <input
+            type='password'
+            id='masterPin'
+            value={masterPin}
+            name='masterPin'
+            placeholder="Numbers only"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
         <div>
           <button disabled={isFormInvalid()}>Sign Up</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button type="button" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
     </main>
