@@ -1,45 +1,54 @@
 import { useEffect, useState, useContext } from 'react';
-
 import { UserContext } from '../../contexts/UserContext';
-
-import * as testService from '../../services/testService';
+import * as lifePhaseService from '../../services/lifePhaseService'
+import LifePhaseForm from '../LifePhase/LifePhaseForm';
+import LifePhaseList from '../LifePhase/LifePhaseList';
 
 const Dashboard = () => {
-  // Access the user object from UserContext
-  // This gives us the currently logged-in user's information (username, email) that we extract from the token
   const { user } = useContext(UserContext);
+  const [lifePhases, setLifePhases] = useState([]);
+  const [isAdding, setIsAdding] = useState(false);
 
-  // Create state to store the message we'll receive from the backend
-  const [ message, setMessage ] = useState('');
-
-  // useEffect runs after the component renders
-  // This is where we perform side effects like API calls
   useEffect(() => {
-    const fetchTest = async () => {
+    const fetchPhases = async () => {
       try {
-        // Make an authenticated API call to the backend test endpoint. The JWT token is automatically sent in the request headers inside the service function
-        const data = await testService.test();
-
-        // Take the response data and show message
-        setMessage(data.message);
-      } catch (err) {
-        console.log(err)
+        const data = await lifePhaseService.index();
+        setLifePhases(data);
+      } catch (error) {
+        console.error(error)
       }
-    }
+    };
+    if (user) fetchPhases();
+  }, [user]); 
 
-    // Only fetch data if user exists (i.e., someone is logged in)
-    // This prevents errors from trying to make authenticated requests without a user
-    if (user) fetchTest();
-
-  }, [user]); // only fetch if after context loads the user from localStorage
+  const handleAddPhase = (newPhase) => {
+    setLifePhases([newPhase, ...lifePhases]);
+    setIsAdding(false);
+  };
 
   return (
-    <main>
-      <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can test your authentication.
-      </p>
-      <p><strong>{message}</strong></p>
+    <main className="min-h-screen bg-[#424036] p-6 md:p-12">
+      <header className="max-w-6xl mx-auto flex justify-between items-end mb-12 border-b-2 border-[#916f3b] pb-6">
+        <div>
+          <h1 className="text-4xl font-black text-[#9b8f6a] uppercase tracking-tighter">
+            Museum Floor Plan
+          </h1>
+          <p className="text-[#916f3b] text-[10px] font-bold uppercase tracking-[0.2em] mt-2">
+            Active Curator: {user?.username}
+          </p>
+        </div>
+        <button 
+          onClick={() => setIsAdding(!isAdding)}
+          className="bg-[#9b8f6a] text-[#2f2e29] px-8 py-3 font-black uppercase text-xs hover:bg-white transition-all shadow-[5px_5px_0px_0px_rgba(47,46,41,1)]"
+        >
+          {isAdding ? 'Close Registry' : 'Open New Wing'}
+        </button>
+      </header>
+
+      <div className="max-w-6xl mx-auto">
+        {isAdding && <LifePhaseForm onAdd={handleAddPhase} />}
+        <LifePhaseList lifePhases={lifePhases} />
+      </div>
     </main>
   );
 };
