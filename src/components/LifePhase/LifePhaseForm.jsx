@@ -18,6 +18,10 @@ const LifePhaseForm = (props) => {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
+        if (formData.endDate && formData.summary.length < 20) {
+            alert("TO close this phase, a Gallery Overview (min.  20 chars) is  required.");
+            return;
+        }
         try {
             const newPhase = await lifePhaseService.create(formData);
             props.onAdd(newPhase);
@@ -34,98 +38,42 @@ const LifePhaseForm = (props) => {
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-
-
                 <div className="flex flex-col gap-2">
-                    <label htmlFor="title" className="text-[10px] font-bold text-[#916f3b] uppercase">
-                        Exhibition Title
-                    </label>
-                    <input
-                        id="title"
-                        name="title"
-                        placeholder="E.G., THE UNIVERSITY YEARS"
-                        className="bg-[#424036] border-b-2 border-[#535346] p-3 text-[#9b8f6a] outline-none focus:border-[#916f3b] uppercase font-bold"
-                        value={formData.title}
-                        onChange={handleChange}
-                        required
-                    />
+                    <label htmlFor="title" className="text-[10px] font-bold text-[#916f3b] uppercase">Exhibition Title</label>
+                    <input id="title" name="title" placeholder="E.G., THE UNIVERSITY YEARS" className="bg-[#424036] border-b-2 border-[#535346] p-3 text-[#9b8f6a] outline-none focus:border-[#916f3b] uppercase font-bold" value={formData.title} onChange={handleChange} required />
                 </div>
-
 
                 <div className="flex flex-col gap-2">
                     <label htmlFor="summary" className="text-[10px] font-bold text-[#916f3b] uppercase">
-                        Gallery Overview
+                        {formData.endDate ? "Required: Closing Gallery Overview" : "Gallery Overview"}
                     </label>
-                    <textarea
-                        id="summary"
-                        name="summary"
-                        placeholder="DESCRIBE THIS ERA IN AT LEAST 20 CHARACTERS..."
-                        className="bg-[#424036] border-b-2 border-[#535346] p-3 text-[#9b8f6a] h-24 outline-none focus:border-[#916f3b] italic"
-                        value={formData.summary}
-                        onChange={handleChange}
-                        required
-                    />
+                    <textarea id="summary" name="summary" placeholder={formData.endDate ? "Reflect on this completed era..." : "Describe this era..."} className="bg-[#424036] border-b-2 border-[#535346] p-3 text-[#9b8f6a] h-24 outline-none focus:border-[#916f3b] italic" value={formData.summary} onChange={handleChange} required />
                 </div>
-
 
                 <div className="grid grid-cols-2 gap-8">
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="startDate" className="text-[10px] font-bold text-[#916f3b] uppercase">
-                            Opening Date
-                        </label>
-                        <input
-                            type="date"
-                            id="startDate"
-                            name="startDate"
-                            className="bg-[#424036] p-2 text-[#9b8f6a] border-b-2 border-[#535346] outline-none"
-                            value={formData.startDate}
-                            onChange={handleChange}
-                            required
-                        />
+                        <label htmlFor="startDate" className="text-[10px] font-bold text-[#916f3b] uppercase">Opening Date</label>
+                        <input type="date" id="startDate" name="startDate" className="bg-[#424036] p-2 text-[#9b8f6a] border-b-2 border-[#535346] outline-none" value={formData.startDate} onChange={handleChange} required />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="endDate" className="text-[10px] font-bold text-[#916f3b] uppercase">
-                            Archived Date
-                        </label>
-                        <input
-                            type="date"
-                            id="endDate"
-                            name="endDate"
-                            placeholder="LEAVE BLANK IF CURRENT"
-                            className="bg-[#424036] p-2 text-[#9b8f6a] border-b-2 border-[#535346] outline-none"
-                            value={formData.endDate}
-                            onChange={handleChange}
-                        />
+                        <label htmlFor="endDate" className="text-[10px] font-bold text-[#916f3b] uppercase">Archived Date</label>
+                        <input type="date" id="endDate" name="endDate" className="bg-[#424036] p-2 text-[#9b8f6a] border-b-2 border-[#535346] outline-none" value={formData.endDate} onChange={handleChange} />
                     </div>
                 </div>
-
 
                 <div className="flex flex-col gap-4 py-4 border-t border-[#424036]">
                     <span className="text-[10px] font-bold text-[#916f3b] uppercase">Gallery Visual Theme</span>
                     <div className="flex gap-6">
-                        {themes.map(theme => (
-                            <label key={theme} className="cursor-pointer relative">
-                                <input
-                                    type="radio"
-                                    name="theme"
-                                    value={theme}
-                                    checked={formData.theme === theme}
-                                    onChange={handleChange}
-                                    className="hidden"
-                                />
-                                <div
-                                    className={`w-8 h-8 rounded-full border-4 transition-transform hover:scale-110 ${formData.theme === theme ? 'border-white' : 'border-transparent'}`}
-                                    style={{ backgroundColor: theme === 'gold' ? '#916f3b' : theme === 'olive' ? '#535346' : theme === 'charcoal' ? '#2f2e29' : theme === 'terracotta' ? '#8a3a3c' : '#424036' }}
-                                />
+                        {themes.map(t => (
+                            <label key={t} className="cursor-pointer relative">
+                                <input type="radio" name="theme" value={t} checked={formData.theme === t} onChange={handleChange} className="hidden" />
+                                <div className={`w-8 h-8 rounded-full border-4 transition-transform ${formData.theme === t ? 'border-white scale-110' : 'border-transparent'}`} style={{ backgroundColor: t === 'gold' ? '#916f3b' : t === 'olive' ? '#535346' : t === 'charcoal' ? '#2f2e29' : t === 'terracotta' ? '#8a3a3c' : '#424036' }} />
                             </label>
                         ))}
                     </div>
                 </div>
 
-                <button
-                    type="submit"
-                    className="w-full bg-[#916f3b] text-[#2f2e29] font-black py-4 mt-4 hover:bg-white transition-colors uppercase tracking-widest shadow-[5px_5px_0px_0px_rgba(0,0,0,0.3)]"
-                >
+                <button type="submit" className="w-full bg-[#916f3b] text-[#2f2e29] font-black py-4 mt-4 hover:bg-white transition-colors uppercase tracking-widest shadow-[5px_5px_0px_0px_rgba(0,0,0,0.3)]">
                     Finalize Exhibition
                 </button>
             </form>
