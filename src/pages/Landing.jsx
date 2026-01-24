@@ -1,4 +1,3 @@
-// This page is a simple component that just loads when the page first loads and you are not signed in
 const Landing = () => {
   return (
     <main>
