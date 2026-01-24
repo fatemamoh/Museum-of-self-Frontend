@@ -9,6 +9,7 @@ import SignInForm from './components/SignInForm/SignInForm';
 import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import Profile from './components/Profile/Profile';
+import LifePhaseDetails from './components/LifePhase/LifePhaseDetails';
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -17,11 +18,15 @@ const App = () => {
     <>
       <NavBar/>
       <Routes>
-        {/* if the user is logged in we have the user object else we have the user set to null */}
         <Route path='/' element={user ? <Dashboard /> : <Landing />} />
+
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
+
         <Route path='/profile' element={user ? <Profile /> : <Landing />} />
+        <Route path='/lifePhases/:id' element={user ? <LifePhaseDetails /> : <Landing />} />
+        
+        <Route path='*' element={<Landing />} />
       </Routes>
     </>
   );

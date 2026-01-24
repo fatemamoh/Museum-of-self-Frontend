@@ -19,40 +19,26 @@ const LifePhaseList = (props) => {
   }
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12 pb-20">
-      {props.lifePhases.map((phase) => (
-        <Link 
-          to={`/lifePhases/${phase._id}`} 
-          key={phase._id}
-          className="group transition-transform hover:-translate-y-2 active:translate-y-0"
-        >
-          <article className={`h-full bg-[#2f2e29] border-2 p-8 flex flex-col justify-between ${themeStyles[phase.theme] || themeStyles.gold}`}>
-            <div>
-              <div className="flex justify-between items-start mb-6">
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
-                  {new Date(phase.startDate).getFullYear()} 
-                  {phase.endDate ? ` — ${new Date(phase.endDate).getFullYear()}` : ' — PRESENT'}
-                </span>
-                <div className="w-2 h-2 rounded-full bg-current opacity-40"></div>
-              </div>
-
-              <h3 className="text-2xl font-black uppercase leading-tight mb-4 tracking-tighter group-hover:underline decoration-4 underline-offset-8">
-                {phase.title}
-              </h3>
-
-              <p className="text-sm italic font-serif opacity-80 line-clamp-3 leading-relaxed">
-                "{phase.summary}"
-              </p>
-            </div>
-
-            <div className="mt-8 pt-4 border-t border-current border-opacity-10 flex justify-between items-center">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Enter Gallery</span>
-              <span className="text-xl group-hover:translate-x-2 transition-transform">→</span>
-            </div>
-          </article>
-        </Link>
-      ))}
-    </section>
+   <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12 pb-20">
+            {props.lifePhases.map((phase) => (
+                <Link to={`/lifePhases/${phase._id}`} key={phase._id} className="group transition-transform hover:-translate-y-2">
+                    <article className={`h-full bg-[#2f2e29] border-2 p-8 flex flex-col justify-between ${themeStyles[phase.theme] || themeStyles.gold}`}>
+                        <div>
+                            <div className="flex justify-between items-start mb-6 text-[10px] font-bold uppercase tracking-widest opacity-60">
+                                <span>{new Date(phase.startDate).getFullYear()} {phase.endDate ? `— ${new Date(phase.endDate).getFullYear()}` : '— Present'}</span>
+                                <div className="w-2 h-2 rounded-full bg-current opacity-40"></div>
+                            </div>
+                            <h3 className="text-2xl font-black uppercase leading-tight mb-4 tracking-tighter group-hover:underline">{phase.title}</h3>
+                            <p className="text-sm italic font-serif opacity-80 line-clamp-3">"{phase.summary}"</p>
+                        </div>
+                        <div className="mt-8 pt-4 border-t border-current border-opacity-10 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em]">
+                            <span>Enter Gallery</span>
+                            <span>→</span>
+                        </div>
+                    </article>
+                </Link>
+            ))}
+        </section>
   );
 };
 
