@@ -18,16 +18,22 @@ const LifePhaseForm = ({ initialData, onAdd, onUpdate, onCancel }) => {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
+        
+        const dataToSubmit = { ...formData };
+        if (!dataToSubmit.endDate) {
+            dataToSubmit.summary = ""; 
+        }
+
         try {
             if (initialData) {
-                const updated = await lifePhaseService.update(initialData._id, formData);
+                const updated = await lifePhaseService.update(initialData._id, dataToSubmit);
                 onUpdate(updated);
             } else {
-                const newPhase = await lifePhaseService.create(formData);
+                const newPhase = await lifePhaseService.create(dataToSubmit);
                 onAdd(newPhase);
             }
         } catch (err) {
-            console.error("Archive Error:", err);
+            console.error("Archive Error:", err.response?.data || err.message);
         }
     };
 
@@ -41,7 +47,7 @@ const LifePhaseForm = ({ initialData, onAdd, onUpdate, onCancel }) => {
                     type="text"
                     id="title"
                     name="title" 
-                    placeholder="e.g., The Childhood Phase"
+                    placeholder="Name this life chapter..."
                     className="bg-[#424036] border-b border-[#535346] p-2 text-[#9b8f6a] outline-none focus:border-[#916f3b] text-sm" 
                     value={formData.title} 
                     onChange={handleChange} 
@@ -79,23 +85,37 @@ const LifePhaseForm = ({ initialData, onAdd, onUpdate, onCancel }) => {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-1">
-                <label htmlFor="summary" className="text-[9px] font-bold text-[#916f3b] uppercase tracking-widest">
-                    Gallery Overview
-                </label>
-                <textarea 
-                    id="summary"
-                    name="summary" 
-                    placeholder="Describe the significance of this wing..."
-                    className="bg-[#424036] border-b border-[#535346] p-2 text-[#9b8f6a] h-20 outline-none focus:border-[#916f3b] resize-none text-sm" 
-                    value={formData.summary} 
-                    onChange={handleChange} 
-                    required 
-                />
-            </div>
+            {formData.endDate ? (
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="summary" className="text-[9px] font-bold text-[#916f3b] uppercase tracking-widest">
+                        Reflections & Summary (Min. 20 chars)
+                    </label>
+                    <textarea 
+                        id="summary"
+                        name="summary" 
+                        minLength="20"
+                        placeholder="The phase has concluded. Record your final thoughts here..."
+                        className="bg-[#424036] border-b border-[#535346] p-2 text-[#9b8f6a] h-24 outline-none focus:border-[#916f3b] resize-none text-sm" 
+                        value={formData.summary} 
+                        onChange={handleChange} 
+                        required 
+                    />
+                    {formData.summary.length > 0 && formData.summary.length < 20 && (
+                        <span className="text-[8px] text-red-500 uppercase font-bold">
+                            {20 - formData.summary.length} more characters required
+                        </span>
+                    )}
+                </div>
+            ) : (
+                <div className="py-4 text-center border border-dashed border-[#535346] opacity-40">
+                    <p className="text-[8px] uppercase tracking-widest text-[#9b8f6a]">
+                        Define an End Date to unlock the Summary field
+                    </p>
+                </div>
+            )}
 
             <div className="flex flex-col gap-3 py-2 border-t border-[#424036]">
-                <span className="text-[9px] font-bold text-[#916f3b] uppercase">Theme Selection</span>
+                <span className="text-[9px] font-bold text-[#916f3b] uppercase">Gallery Theme</span>
                 <div className="flex gap-4">
                     {themes.map(t => (
                         <label key={t} htmlFor={`theme-${t}`} className="cursor-pointer relative">
@@ -114,9 +134,23 @@ const LifePhaseForm = ({ initialData, onAdd, onUpdate, onCancel }) => {
                 </div>
             </div>
 
-            <button type="submit" className="w-full bg-[#916f3b] text-[#2f2e29] font-black py-3 mt-2 hover:bg-white transition-colors uppercase text-[10px] tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]">
-                {initialData ? 'Update Wing' : 'Create Wing'}
-            </button>
+            <div className="flex gap-2">
+                <button 
+                    type="submit" 
+                    className="flex-1 bg-[#916f3b] text-[#2f2e29] font-black py-3 mt-2 hover:bg-white transition-colors uppercase text-[10px] tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]"
+                >
+                    {initialData ? 'Update Wing' : 'Initialize Wing'}
+                </button>
+                {onCancel && (
+                    <button 
+                        type="button" 
+                        onClick={onCancel}
+                        className="px-6 py-3 mt-2 border border-[#535346] text-[#9b8f6a] font-bold uppercase text-[10px] tracking-widest hover:bg-[#535346] hover:text-white transition-all"
+                    >
+                        Cancel
+                    </button>
+                )}
+            </div>
         </form>
     );
 };
