@@ -25,6 +25,9 @@
 
 ## 📂 Data Models & Schema
 
+### Entity Relationship Diagram (ERD)
+![Museum of Self ERD](./src/assets/erd.png)
+
 ### **Model 1: User (The Curator)**
 * `username` / `password`: Basic authentication (Bcrypt hashed).
 * `masterPin`: Hashed 4-6 digit code for Vault/Private access.
