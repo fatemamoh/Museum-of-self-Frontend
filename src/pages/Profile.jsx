@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { UserContext } from '../../contexts/UserContext';
-import * as userService from '../../services/userService';
+import { UserContext } from '../contexts/UserContext';
+import * as userService from '../services/userService'
 
 const Profile = () => {
   const { user, setUser } = useContext(UserContext);
@@ -74,7 +74,7 @@ const Profile = () => {
           <div className="bg-[#9b8f6a] p-1 shadow-[15px_15px_0px_0px_rgba(47,46,41,1)]">
             <div className="bg-[#2f2e29] p-8 md:p-12 text-center border-2 border-[#424036]">
               <span className="inline-block px-4 py-1 bg-[#916f3b] text-[#2f2e29] text-[10px] font-bold uppercase tracking-[0.4em] mb-8">
-                Exhibit 01: Principal Curator
+                Exhibit 01: Curator
               </span>
               
               <h1 className="text-5xl font-black uppercase text-[#9b8f6a] tracking-widest mb-4">
@@ -99,50 +99,85 @@ const Profile = () => {
 
               <div className="border-t border-[#424036] pt-8 flex flex-col items-center gap-6">
                 <div className="text-center">
-                  <p className="text-[10px] uppercase text-[#916f3b] font-bold tracking-widest mb-1">Stationed At</p>
+                  <p className="text-[10px] uppercase text-[#916f3b] font-bold tracking-widest mb-1">Located At</p>
                   <p className="text-sm uppercase tracking-widest text-[#9b8f6a]">{user.location || "Unspecified"}</p>
                 </div>
                 <button onClick={() => setIsEditing(true)} className="btn bg-[#9b8f6a] text-[#2f2e29] border-none rounded-none font-black px-12 hover:bg-white transition-colors">
-                  MODIFY RECORD
+                  MODIFY PROFILE
                 </button>
               </div>
             </div>
           </div>
         ) : (
-          <div className="bg-[#2f2e29] border-4 border-[#916f3b] p-8 shadow-2xl">
-            <h2 className="text-2xl font-serif text-[#916f3b] uppercase mb-8 tracking-widest text-center">Update Archives</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="form-control">
-                <label htmlFor="avatar" className="label text-[10px] font-bold uppercase tracking-widest text-[#916f3b]">Portrait File</label>
-                <input id="avatar" name="avatar" type="file" className="file-input file-input-bordered bg-[#424036] border-[#535346] text-[#9b8f6a] rounded-none" onChange={handleFileChange} />
+          <div className="bg-[#2f2e29] border-4 border-[#916f3b] p-8 md:p-12 shadow-2xl">
+            <h2 className="text-2xl font-serif text-[#916f3b] uppercase mb-10 tracking-[0.3em] text-center">Modify Profile</h2>
+            
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-[#916f3b]">Portrait File</label>
+                <input 
+                  type="file" 
+                  className="file-input file-input-bordered bg-[#424036] border-[#535346] text-[#9b8f6a] rounded-none w-full" 
+                  onChange={handleFileChange} 
+                />
               </div>
-              <div className="form-control">
-                <label htmlFor="location" className="label text-[10px] font-bold uppercase tracking-widest text-[#916f3b]">Registry Location</label>
-                <input id="location" name="location" className="input bg-[#424036] border-[#535346] text-[#9b8f6a] rounded-none focus:border-[#916f3b]" value={formData.location} onChange={handleChange} />
+
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-[#916f3b]">Current Location</label>
+                <input 
+                  className="input bg-[#424036] border-[#535346] text-[#9b8f6a] rounded-none focus:outline-none focus:border-[#916f3b] w-full" 
+                  value={formData.location} 
+                  name="location"
+                  onChange={handleChange} 
+                />
               </div>
-              <div className="form-control">
-                <label htmlFor="bio" className="label text-[10px] font-bold uppercase tracking-widest text-[#916f3b]">Curator's Statement</label>
-                <textarea id="bio" name="bio" className="textarea bg-[#424036] border-[#535346] text-[#9b8f6a] h-32 rounded-none focus:border-[#916f3b]" value={formData.bio} onChange={handleChange} />
+
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-[#916f3b]">Curator's Narrative</label>
+                <textarea 
+                  className="textarea bg-[#424036] border-[#535346] text-[#9b8f6a] h-40 rounded-none focus:outline-none focus:border-[#916f3b] w-full leading-relaxed p-4" 
+                  value={formData.bio} 
+                  name="bio"
+                  onChange={handleChange} 
+                />
               </div>
-              <div className="flex gap-4 pt-4">
-                <button type="submit" className="btn bg-[#916f3b] text-[#2f2e29] border-none rounded-none flex-1 font-bold">COMMIT</button>
-                <button type="button" onClick={() => setIsEditing(false)} className="btn btn-ghost text-[#9b8f6a] rounded-none">ABORT</button>
+
+              <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                <button type="submit" className="btn bg-[#916f3b] text-[#2f2e29] border-none rounded-none flex-1 font-black tracking-widest hover:bg-white">UPDATE CHANGES</button>
+                <button type="button" onClick={() => setIsEditing(false)} className="btn btn-ghost text-[#9b8f6a] rounded-none tracking-widest">CANCEL</button>
               </div>
             </form>
           </div>
         )}
 
-        <div className="mt-16 flex flex-col items-center opacity-30">
-          <div className="h-px w-32 bg-[#916f3b] mb-4"></div>
+        <div className="mt-20 flex flex-col items-center">
+          <div className="h-px w-32 bg-[#916f3b]/30 mb-8"></div>
           {!isDeleting ? (
-            <button onClick={() => setIsDeleting(true)} className="text-[10px] uppercase tracking-widest hover:text-red-500 transition-colors">
+            <button 
+              onClick={() => setIsDeleting(true)} 
+              className="text-[10px] uppercase tracking-[0.4em] text-[#9b8f6a] hover:text-[#ff4d4d] transition-all duration-300 border border-[#9b8f6a]/20 px-8 py-3"
+            >
               Request Record Destruction
             </button>
           ) : (
-            <div className="flex gap-6 items-center">
-              <span className="text-[10px] font-bold text-red-500">CONFIRM?</span>
-              <button onClick={handleDelete} className="text-[10px] font-bold underline">YES</button>
-              <button onClick={() => setIsDeleting(false)} className="text-[10px] font-bold underline">NO</button>
+            <div className="bg-red-950/30 border-2 border-red-600 p-8 flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <span className="text-[11px] font-black text-red-500 tracking-[0.5em] uppercase text-center">
+                Critical Warning: Permanent Erasure
+              </span>
+              <div className="flex gap-12 items-center">
+                <button 
+                  onClick={handleDelete} 
+                  className="text-xs font-black text-red-500 hover:text-white underline underline-offset-8 tracking-widest"
+                >
+                  YES, ERASE
+                </button>
+                <button 
+                  onClick={() => setIsDeleting(false)} 
+                  className="text-xs font-black text-[#9b8f6a] hover:text-white tracking-widest"
+                >
+                  NO, RETURN
+                </button>
+              </div>
             </div>
           )}
         </div>
