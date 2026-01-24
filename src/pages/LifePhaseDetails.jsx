@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import * as lifePhaseService from '../../services/lifePhaseService';
-import LifePhaseForm from './LifePhaseForm';
+import * as lifePhaseService from '../services/lifePhaseService';
+import LifePhaseForm from '../components/LifePhase/LifePhaseForm';
 
 const LifePhaseDetails = () => {
     const { id } = useParams();
@@ -24,7 +24,7 @@ const LifePhaseDetails = () => {
         }; fetchPhase();
     }, [id]);
 
-    const handleDelete = async ()=>{
+    const handleDelete = async () => {
         try {
             await lifePhaseService.deleteLifePhase(id);
             navigate('/');
@@ -33,7 +33,7 @@ const LifePhaseDetails = () => {
         }
     }
 
-    const handleUpdate = (updatePhase) =>{
+    const handleUpdate = (updatePhase) => {
         setPhase(updatePhase);
         setIsEditing(false);
     };
@@ -47,10 +47,10 @@ const LifePhaseDetails = () => {
             <main className="min-h-screen bg-[#2f2e29] p-12">
                 <div className="max-w-4xl mx-auto">
                     <button onClick={() => setIsEditing(false)} className="text-[#9b8f6a] text-[10px] font-bold uppercase tracking-widest mb-8">← Cancel Renovation</button>
-                    <LifePhaseForm 
-                        initialData={phase} 
-                        id={id} 
-                        onUpdate={handleUpdate} 
+                    <LifePhaseForm
+                        initialData={phase}
+                        id={id}
+                        onUpdate={handleUpdate}
                     />
                 </div>
             </main>
@@ -62,13 +62,13 @@ const LifePhaseDetails = () => {
             <div className="max-w-4xl mx-auto">
                 <div className="flex justify-between items-center mb-12">
                     <button onClick={() => navigate('/')} className="text-[#9b8f6a] text-[10px] font-bold uppercase tracking-widest hover:underline flex items-center gap-2">← Back to Floor Plan</button>
-                    
+
                     <div className="flex gap-4">
                         <button onClick={() => setIsEditing(true)} className="text-[#9b8f6a] text-[10px] font-bold uppercase border border-[#9b8f6a] px-6 py-2 hover:bg-[#9b8f6a] hover:text-[#2f2e29] transition-all shadow-[4px_4px_0px_0px_rgba(155,143,106,0.3)]">
                             Modify Wing
                         </button>
                         <button onClick={handleDelete} className="text-red-800 text-[10px] font-bold uppercase border border-red-800 px-6 py-2 hover:bg-red-800 hover:text-white transition-all">
-                            Delete Wing 
+                            Delete Wing
                         </button>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ const LifePhaseDetails = () => {
                         <div className="text-right">
                             <p className="text-[#9b8f6a] text-xs font-bold uppercase tracking-widest">Phase Range</p>
                             <p className="text-xl font-black text-[#916f3b] uppercase">
-                                {new Date(phase.startDate).getFullYear()} 
+                                {new Date(phase.startDate).getFullYear()}
                                 {phase.endDate ? ` — ${new Date(phase.endDate).getFullYear()}` : ' — Present'}
                             </p>
                         </div>

@@ -4,12 +4,12 @@ import { Routes, Route } from 'react-router';
 import { UserContext } from './contexts/UserContext';
 
 import NavBar from './components/NavBar/NavBar';
-import SignUpForm from './components/SignUpForm/SignUpForm';
-import SignInForm from './components/SignInForm/SignInForm';
-import Landing from './components/Landing/Landing';
-import Dashboard from './components/Dashboard/Dashboard';
-import Profile from './components/Profile/Profile';
-import LifePhaseDetails from './components/LifePhase/LifePhaseDetails';
+import SignUpForm from './components/Auth/SignUpForm';
+import SignInForm from './components/Auth/SignInForm';
+import Landing from './pages/Landing';
+import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
+import LifePhaseDetails from './pages/LifePhaseDetails';
 
 const App = () => {
   const { user } = useContext(UserContext);

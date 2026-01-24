@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import * as lifePhaseService from '../../services/lifePhaseService'
-import LifePhaseForm from '../LifePhase/LifePhaseForm';
-import LifePhaseList from '../LifePhase/LifePhaseList';
+import LifePhaseForm from '../../components/LifePhase/LifePhaseForm';
+import LifePhaseList from '../../components/LifePhase/LifePhaseList';
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
