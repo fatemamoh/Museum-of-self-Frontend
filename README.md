@@ -63,13 +63,3 @@
 
 ---
 
-## 🛠️ Visual Workflow & Strategy
-
-### **The Theme Engine**
-When a user selects a Room, the app fetches the `theme` color. React then updates global CSS variables to shift the background, borders, and accents of the entire UI.
-
-### **Dual-Layer Security**
-The **MasterPIN** is required to view memories marked as "Private" or to open "Time Capsules" (memories with a future `lockDate`).
-
----
-
