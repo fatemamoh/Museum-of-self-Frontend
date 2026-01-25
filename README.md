@@ -28,6 +28,10 @@
 ### Entity Relationship Diagram (ERD)
 ![Museum of Self ERD](./src/assets/erd.png)
 
+### Wireframe of the Workflow
+![Museum of Self Wireframe](./src/assets/wireframe.png)
+
+
 ### **Model 1: User (The Curator)**
 * `username` / `password`: Basic authentication (Bcrypt hashed).
 * `masterPin`: Hashed 4-6 digit code for Vault/Private access.
