@@ -5,81 +5,79 @@ import * as lifePhaseService from '../services/lifePhaseService';
 import LifePhaseForm from '../components/LifePhase/LifePhaseForm';
 
 const LifePhaseDetails = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const { setTheme } = useContext(ThemeContext);
-    const [phase, setPhase] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { setTheme } = useContext(ThemeContext);
+  const [phase, setPhase] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
-    useEffect(() => {
-        const fetchPhase = async () => {
-            try {
-                const data = await lifePhaseService.index();
-                const current = data.find(p => p._id === id);
-                setPhase(current);
-                if (current) setTheme(current.theme);
-            } catch (error) {
-                console.error(error);
-            }
-        }; 
-        fetchPhase();
-        return () => setTheme('classic');
-    }, [id, setTheme]);
-
-    const handleDelete = async () => {
-        try {
-            await lifePhaseService.deleteLifePhase(id);
-            navigate('/lifePhases');
-        } catch (error) {
-            console.error(error);
-        }
+  useEffect(() => {
+    const fetchPhase = async () => {
+      try {
+        const data = await lifePhaseService.index();
+        const current = data.find(p => p._id === id);
+        setPhase(current);
+        if (current) setTheme(current.theme);
+      } catch (err) { console.error(err); }
     };
+    fetchPhase();
+    return () => setTheme('classic');
+  }, [id, setTheme]);
 
-    if (!phase) return <main className="p-8 italic">Opening Archive...</main>;
+  const handleDelete = async () => {
+    try {
+      await lifePhaseService.deleteLifePhase(id);
+      navigate('/lifePhases');
+    } catch (err) { console.error(err); }
+  };
 
-    return (
-        <main className="min-h-screen transition-museum p-8 bg-base-100 text-base-content">
-            <div className="max-w-4xl mx-auto p-12 shadow-2xl border border-museum-brown/10 bg-base-100">
-                {isEditing ? (
-                    <LifePhaseForm initialData={phase} />
-                ) : (
-                    <>
-                        <header className="border-b border-museum-beige pb-8 mb-8">
-                            <h1 className="text-5xl font-serif italic mb-4">{phase.title}</h1>
-                            <div className="flex justify-between items-center text-primary uppercase tracking-widest font-bold text-xs">
-                                <span>Inaugurated: {new Date(phase.startDate).toLocaleDateString()}</span>
-                                <span>Conclusion: {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : 'Active'}</span>
-                            </div>
-                        </header>
-                        <section className="mb-12">
-                            <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4 opacity-70">Curator's Narrative</h3>
-                            <p className="text-2xl font-serif italic leading-relaxed">
-                                {phase.summary ? `"${phase.summary}"` : "This chapter of the museum is still being written..."}
-                            </p>
-                        </section>
-                        <div className="flex gap-4 border-t border-museum-beige pt-8">
-                            <button onClick={() => setIsEditing(true)} className="btn btn-outline rounded-none uppercase">Renovate Wing</button>
-                            <button onClick={() => setIsDeleteModalOpen(true)} className="btn btn-error btn-outline rounded-none uppercase">Erase Record</button>
-                            <button onClick={() => navigate('/lifePhases')} className="btn btn-ghost rounded-none uppercase">Back to Floor Plan</button>
-                        </div>
-                    </>
-                )}
+  if (!phase) return <div className="min-h-screen flex items-center justify-center italic opacity-30">Consulting Curator...</div>;
+
+  return (
+    <main className="min-h-screen p-6 md:p-24 transition-museum">
+      <div className="max-w-5xl mx-auto p-12 md:p-20 shadow-[0_0_80px_rgba(0,0,0,0.1)] bg-base-100 border border-primary/10 relative overflow-hidden">
+        {isEditing ? (
+          <LifePhaseForm initialData={phase} />
+        ) : (
+          <>
+            <header className="border-b border-primary/20 pb-12 mb-12">
+              <h1 className="text-5xl md:text-8xl font-serif italic mb-8 leading-tight">{phase.title}</h1>
+              <div className="flex justify-between items-center text-primary font-black uppercase tracking-[0.3em] text-[10px]">
+                <span>Inaugurated: {new Date(phase.startDate).toLocaleDateString()}</span>
+                <span>Conclusion: {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : 'Active Era'}</span>
+              </div>
+            </header>
+            <section className="mb-20">
+              <p className="text-3xl md:text-4xl font-serif italic leading-[1.6] opacity-90">
+                {phase.summary ? `"${phase.summary}"` : "This gallery remains open for further contributions."}
+              </p>
+            </section>
+            <div className="flex flex-wrap gap-6 pt-12 border-t border-primary/10">
+              <button onClick={() => setIsEditing(true)} className="btn btn-primary rounded-none px-12">Renovate</button>
+              <button onClick={() => setShowDeletePopup(true)} className="btn btn-outline btn-error rounded-none px-12">Erase Wing</button>
+              <button onClick={() => navigate('/lifePhases')} className="btn btn-ghost rounded-none">Floor Plan</button>
             </div>
+          </>
+        )}
+      </div>
 
-            <div className={`modal ${isDeleteModalOpen ? 'modal-open' : ''}`}>
-                <div className="modal-box rounded-none border-2 border-error bg-base-100">
-                    <h3 className="font-serif italic text-2xl text-error mb-4">Critical Action</h3>
-                    <p className="py-4 text-base-content">Permanently erase the wing "{phase.title}"?</p>
-                    <div className="modal-action flex gap-4">
-                        <button onClick={handleDelete} className="btn btn-error rounded-none flex-1 uppercase">Confirm</button>
-                        <button onClick={() => setIsDeleteModalOpen(false)} className="btn btn-ghost rounded-none flex-1 uppercase">Abort</button>
-                    </div>
-                </div>
-                <div className="modal-backdrop" onClick={() => setIsDeleteModalOpen(false)}></div>
+      {showDeletePopup && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
+          <div className="bg-base-100 border-2 border-error p-12 max-w-lg w-full shadow-2xl text-center">
+            <h2 className="text-error font-serif italic text-4xl mb-6">Critical Warning</h2>
+            <p className="mb-12 text-lg opacity-80 leading-relaxed">
+              Permanently destroy the <span className="font-bold underline text-primary">"{phase.title}"</span> wing? This record will be erased from the archives forever.
+            </p>
+            <div className="flex flex-col gap-4">
+              <button onClick={handleDelete} className="btn btn-error rounded-none text-white w-full uppercase tracking-widest font-bold">Destroy Record</button>
+              <button onClick={() => setShowDeletePopup(false)} className="btn btn-ghost rounded-none w-full uppercase tracking-widest font-bold">Abort</button>
             </div>
-        </main>
-    );
+          </div>
+        </div>
+      )}
+    </main>
+  );
 };
 
 export default LifePhaseDetails;

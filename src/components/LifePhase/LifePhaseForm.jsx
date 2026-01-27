@@ -37,57 +37,51 @@ const LifePhaseForm = ({ initialData }) => {
     };
 
     return (
-        <div className="flex justify-center p-4">
-            <form onSubmit={handleSubmit} className="card w-full max-w-2xl bg-base-100 p-8 space-y-6 rounded-none">
-                <h2 className="text-3xl font-serif text-base-content border-b border-museum-beige pb-4 italic">
-                    {initialData ? 'Renovate Wing' : 'Initialize New Wing'}
-                </h2>
+        <form onSubmit={handleSubmit} className="space-y-6 bg-transparent">
+            <div className="form-control">
+                <label className="label" htmlFor="title">
+                    <span className="label-text font-bold text-primary uppercase text-xs">Title</span>
+                </label>
+                <input type="text" id="title" name="title" placeholder="Era Title" className="input input-bordered rounded-none bg-base-200/30" value={formData.title} onChange={handleChange} required />
+            </div>
 
+            <div className="grid grid-cols-2 gap-4">
                 <div className="form-control">
-                    <label className="label" htmlFor="title">
-                        <span className="label-text font-bold text-primary uppercase text-xs">Title</span>
-                    </label>
-                    <input type="text" id="title" name="title" placeholder="e.g., The Early Years" className="input input-bordered rounded-none bg-base-200/50" value={formData.title} onChange={handleChange} required />
+                    <label className="label" htmlFor="startDate"><span className="label-text font-bold text-primary uppercase text-xs">Inauguration</span></label>
+                    <input type="date" id="startDate" name="startDate" className="input input-bordered rounded-none bg-base-200/30" value={formData.startDate} onChange={handleChange} required />
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="form-control">
-                        <label className="label" htmlFor="startDate"><span className="label-text font-bold text-primary uppercase text-xs">Inauguration</span></label>
-                        <input type="date" id="startDate" name="startDate" className="input input-bordered rounded-none bg-base-200/50" value={formData.startDate} onChange={handleChange} required />
-                    </div>
-                    <div className="form-control">
-                        <label className="label" htmlFor="endDate"><span className="label-text font-bold text-primary uppercase text-xs">Conclusion</span></label>
-                        <input type="date" id="endDate" name="endDate" className="input input-bordered rounded-none bg-base-200/50" value={formData.endDate} onChange={handleChange} />
-                    </div>
-                </div>
-
                 <div className="form-control">
-                    <label className="label" htmlFor="summary"><span className="label-text font-bold text-primary uppercase text-xs">Curator Statement</span></label>
-                    {formData.endDate ? (
-                        <textarea id="summary" name="summary" placeholder="Reflect on this era..." className="textarea textarea-bordered h-32 rounded-none bg-base-200/50" value={formData.summary} onChange={handleChange} required minLength={20} />
-                    ) : (
-                        <div className="p-4 bg-base-200 border border-dashed border-primary/30 text-center italic text-sm">Conclusion date required to unlock summary.</div>
-                    )}
+                    <label className="label" htmlFor="endDate"><span className="label-text font-bold text-primary uppercase text-xs">Conclusion</span></label>
+                    <input type="date" id="endDate" name="endDate" className="input input-bordered rounded-none bg-base-200/30" value={formData.endDate} onChange={handleChange} />
                 </div>
+            </div>
 
-                <div className="form-control">
-                    <label className="label"><span className="label-text font-bold text-primary uppercase text-xs">Gallery Theme</span></label>
-                    <div className="flex flex-wrap gap-6">
-                        {themes.map(t => (
-                            <label key={t} className="flex items-center gap-2 cursor-pointer" htmlFor={`theme-${t}`}>
-                                <input type="radio" id={`theme-${t}`} name="theme" value={t} checked={formData.theme === t} onChange={handleChange} className="radio checked:bg-primary" />
-                                <span className="capitalize text-sm">{t}</span>
-                            </label>
-                        ))}
-                    </div>
-                </div>
+            <div className="form-control">
+                <label className="label" htmlFor="summary"><span className="label-text font-bold text-primary uppercase text-xs">Statement</span></label>
+                {formData.endDate ? (
+                    <textarea id="summary" name="summary" className="textarea textarea-bordered h-32 rounded-none bg-base-200/30" value={formData.summary} onChange={handleChange} required minLength={20} />
+                ) : (
+                    <div className="p-4 bg-base-200 border border-dashed border-primary/30 text-center italic text-sm">Set conclusion to unlock statement.</div>
+                )}
+            </div>
 
-                <div className="flex gap-4 pt-6">
-                    <button type="submit" className="btn btn-primary flex-1 rounded-none uppercase">{initialData ? 'Update Record' : 'Open Wing'}</button>
-                    <button type="button" onClick={() => navigate(-1)} className="btn btn-ghost rounded-none uppercase">Cancel</button>
+            <div className="form-control">
+                <label className="label"><span className="label-text font-bold text-primary uppercase text-xs">Aesthetic</span></label>
+                <div className="flex flex-wrap gap-4">
+                    {themes.map(t => (
+                        <label key={t} className="flex items-center gap-2 cursor-pointer" htmlFor={`theme-${t}`}>
+                            <input type="radio" id={`theme-${t}`} name="theme" value={t} checked={formData.theme === t} onChange={handleChange} className="radio radio-primary" />
+                            <span className="capitalize text-sm">{t}</span>
+                        </label>
+                    ))}
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <div className="flex gap-4 pt-4">
+                <button type="submit" className="btn btn-primary flex-1 rounded-none uppercase">{initialData ? 'Save' : 'Open Wing'}</button>
+                <button type="button" onClick={() => navigate(-1)} className="btn btn-ghost rounded-none uppercase">Cancel</button>
+            </div>
+        </form>
     );
 };
 
