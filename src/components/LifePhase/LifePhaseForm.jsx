@@ -38,11 +38,11 @@ const LifePhaseForm = ({ initialData, onUpdate }) => {
                 <span className="text-crimson">{initialData ? 'Update_Record' : 'New_Entry'}</span>
             </nav>
 
-            <div className="museum-ledger flex flex-col md:flex-row min-h-125mate-hero">
+            <div className="museum-ledger flex flex-col md:flex-row min-h-[500px] animate-hero">
                 <div className="ledger-sidebar w-full md:w-1/3 p-8 flex flex-col justify-between border-b md:border-b-0">
                     <div>
-                        <div className="w-12 h-1 bg-crimsonb-6"></div>
-                        <h2 className="text-3xl font-serif italic text-museum-darkrk leading-tight">
+                        <div className="w-12 h-1 bg-crimson mb-6"></div>
+                        <h2 className="text-3xl font-serif italic text-museum-dark leading-tight">
                             {initialData ? 'Modify Gallery Wing' : 'Catalog New Era'}
                         </h2>
                         <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">
@@ -57,12 +57,12 @@ const LifePhaseForm = ({ initialData, onUpdate }) => {
                 <form onSubmit={handleSubmit} className="flex-1 p-8 md:p-12 space-y-8 bg-white/30 relative z-50">
                     <div className="space-y-6">
                         <div className="form-control">
-                            <label className="text-[9px] font-black uppercase tracking-widest text-museum-brownown mb-1 block">Title of Exhibit</label>
+                            <label className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Title of Exhibit</label>
                             <input name="title" placeholder="ERA TITLE..." className="museum-input text-xl font-serif italic py-2" value={formData.title} onChange={handleChange} required />
                         </div>
                         <div className="grid grid-cols-2 gap-10">
                             <div className="form-control">
-                                <label className="text-[9px] font-black uppercase tracking-widest text-museum-brownown mb-1 block">Date Opened</label>
+                                <label className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Date Opened</label>
                                 <input type="date" name="startDate" className="museum-input text-xs py-2 opacity-70" value={formData.startDate} onChange={handleChange} required />
                             </div>
                             <div className="form-control">
@@ -71,8 +71,8 @@ const LifePhaseForm = ({ initialData, onUpdate }) => {
                             </div>
                         </div>
                         <div className="form-control">
-                            <label className="text-[9px] font-black uppercase tracking-widest text-museum-brownown mb-1 block">Archival Summary</label>
-                            <textarea name="summary" placeholder="NARRATIVE..." className="museum-input h-32 p-3 text-sm resize-none border border-museum-dark/1010 font-serif italic" value={formData.summary} onChange={handleChange} />
+                            <label className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Archival Summary</label>
+                            <textarea name="summary" placeholder="NARRATIVE..." className="museum-input h-32 p-3 text-sm resize-none border border-museum-dark/10 font-serif italic" value={formData.summary} onChange={handleChange} />
                         </div>
                     </div>
                     <div className="flex items-center gap-6 pt-6">

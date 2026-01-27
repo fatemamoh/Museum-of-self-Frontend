@@ -33,15 +33,17 @@ const Dashboard = () => {
 
     return (
         <main className="min-h-screen relative bg-museum-cream pb-20">
-            {/* Using the global blueprint-grid style */}
             <div className="blueprint-grid"></div>
 
-            <section className="h-[60vh] flex items-center justify-center px-6 relative overflow-hidden border-b border-museum-dark/1010">
+            <section className="h-[70vh] spotlight flex items-center justify-center px-6 relative overflow-hidden border-b border-museum-dark/20 bg-museum-beige/30">
                 <div key={heroIndex} className="text-center animate-hero z-10 flex flex-col items-center">
-                    <Fingerprint size={32} className="mb-6 opacity-20 text-museum-darkrk" />
-                    <span className="text-[9px] uppercase tracking-[0.8em] font-black opacity-40 mb-4 block text-museum-dark">Archive of {user?.username}</span>
-                    <h1 className="text-4xl md:text-6xl font-serif italic mb-6 text-museum-dark">{slogans[heroIndex].main}</h1>
-                    <p className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-60 text-museum-dark">{slogans[heroIndex].sub}</p>
+                    <div className="p-4 rounded-full bg-museum-cream/50 mb-6 border border-museum-dark/5 shadow-inner">
+                        <Fingerprint size={40} className="text-museum-dark opacity-80" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-[0.8em] font-black opacity-60 mb-4 block text-museum-dark">Archive of {user?.username}</span>
+                    <h1 className="text-5xl md:text-7xl font-serif italic mb-8 text-museum-dark drop-shadow-sm">{slogans[heroIndex].main}</h1>
+                    <div className="h-[1px] w-24 bg-museum-dark/20 mb-8"></div>
+                    <p className="text-[11px] uppercase tracking-[0.4em] font-bold opacity-70 text-museum-brown">{slogans[heroIndex].sub}</p>
                 </div>
             </section>
 
@@ -73,7 +75,7 @@ const Dashboard = () => {
                 <section className="mb-20">
                     <h3 className="text-[9px] uppercase tracking-[0.5em] font-black opacity-40 mb-8">Primary Exhibition</h3>
                     {active ? (
-                        <Link to={`/lifePhases/${active._id}`} className="block border-2 border-museum-dark p-10 bg-[#E8DFCA] hover:bg-museum-dark hover:text-museum-creameam transition-all group relative overflow-hidden">
+                        <Link to={`/lifePhases/${active._id}`} className="block border-2 border-museum-dark p-10 bg-[#E8DFCA] hover:bg-museum-dark hover:text-museum-cream transition-all group relative overflow-hidden">
                             <div className="flex justify-between items-start relative z-10">
                                 <div>
                                     <span className="text-[9px] font-black text-crimson uppercase group-hover:text-museum-cream/80">Currently Active</span>

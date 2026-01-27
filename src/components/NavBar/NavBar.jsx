@@ -26,7 +26,7 @@ const NavBar = () => {
         <Landmark 
           size={isScrolled ? 20 : 24} 
           strokeWidth={1.5} 
-          className="transition-all duration-500 group-hover:rotate-12 group-hover:text-museum-brownown" 
+          className="transition-all duration-500 group-hover:rotate-12 group-hover:text-museum-brown" 
         />
         <span className="font-serif italic text-xl tracking-tighter">The Self Museum</span>
       </Link>
@@ -39,8 +39,7 @@ const NavBar = () => {
             <Link to="/profile" className="nav-link">Curator</Link>
             <button 
               onClick={handleLogout} 
-              className="nav-link text-crimson opacity-80! hover:opacity-100! cursor-pointer"
-              style={{ color: '#8a3a3c' }}
+              className="nav-link !text-crimson !opacity-80 hover:!opacity-100 cursor-pointer"
             >
               Sign Out
             </button>
