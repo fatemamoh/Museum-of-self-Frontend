@@ -7,12 +7,12 @@ import SignUpForm from './components/Auth/SignUpForm';
 import SignInForm from './components/Auth/SignInForm';
 import ForgotPassword from './components/Auth/ForgotPassword';
 import ResetPassword from './components/Auth/ResetPassword';
+import LifePhaseForm from './components/LifePhase/LifePhaseForm';
 
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import LifePhaseDetails from './pages/LifePhaseDetails';
-import LifePhaseForm from './components/LifePhase/LifePhaseForm';
 import LifePhaseList from './pages/LifePhaseList';
 
 const App = () => {
