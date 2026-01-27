@@ -34,4 +34,21 @@ async function signIn(formData) {
   return user;
 }
 
-export { signUp, signIn };
+async function forgotPassword(email) {
+  try {
+    const response = await axios.post(`${BASE_URL}/forgot-password`, { email });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+}
+
+async function resetPassword(token, password) {
+  try {
+    const response = await axios.post(`${BASE_URL}/reset-password/${token}`, { password });
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+}
+export { signUp, signIn, forgotPassword, resetPassword};
