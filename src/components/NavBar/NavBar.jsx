@@ -29,14 +29,14 @@ const NavBar = () => {
                 {user ? (
                     <button 
                         onClick={handleSignout} 
-                        className="btn-museum !py-2 !px-6 !text-[8px] ml-4"
+                        className="btn-museum py-2! px-6! text-[8px]! ml-4"
                     >
                         Exit Archive
                     </button>
                 ) : (
                     <div className="flex gap-6">
                         <Link to="/sign-in" className="hover:text-[#A68A6B] transition-colors">Sign In</Link>
-                        <Link to="/sign-up" className="btn-museum !py-2 !px-6 !text-[8px]">Register</Link>
+                        <Link to="/sign-up" className="btn-museum py-2! px-6! text-[8px]!">Register</Link>
                     </div>
                 )}
             </div>

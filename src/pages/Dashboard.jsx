@@ -21,8 +21,12 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetch = async () => {
-            const data = await lifePhaseService.index();
-            setLifePhases(data);
+            try {
+                const data = await lifePhaseService.index();
+                setLifePhases(data);
+            } catch (err) {
+                console.error("Error fetching archives:", err);
+            }
         };
         if (user) fetch();
     }, [user]);
@@ -31,6 +35,8 @@ const Dashboard = () => {
 
     return (
         <main className="min-h-screen relative bg-[#F5F0E1]">
+            <div className="spotlight"></div>
+            
             <section className="h-[55vh] flex items-center justify-center px-6 relative overflow-hidden border-b border-[#4B3D2A]/10">
                 <div className="blueprint-grid opacity-10"></div>
                 <div key={heroIndex} className="hero-text-box text-center animate-hero z-10">
@@ -41,12 +47,12 @@ const Dashboard = () => {
                 </div>
                 <div className="absolute bottom-8 flex gap-3 z-20">
                     {slogans.map((_, i) => (
-                        <button key={i} onClick={() => setHeroIndex(i)} className={`h-1 transition-all duration-700 ${i === heroIndex ? 'w-12 bg-[#4B3D2A]' : 'w-3 bg-[#4B3D2A]/20'}`} />
+                        <button key={i} onClick={() => setHeroIndex(i)} className={`h-1 transition-all duration-700 cursor-pointer ${i === heroIndex ? 'w-12 bg-[#4B3D2A]' : 'w-3 bg-[#4B3D2A]/20'}`} />
                     ))}
                 </div>
             </section>
 
-            <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 relative z-10">
                 <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
                     <Link to="/lifePhases/new" className="toolkit-card group">
                         <span className="text-[8px] font-black uppercase tracking-widest opacity-40">Action 01</span>
@@ -68,18 +74,18 @@ const Dashboard = () => {
                 <section className="mb-20">
                     <h3 className="text-[9px] uppercase tracking-[0.5em] font-black opacity-40 mb-6">Primary Exhibition</h3>
                     {active ? (
-                        <Link to={`/lifePhases/${active._id}`} className="block border-2 border-[#4B3D2A] p-10 bg-[#E8DFCA] hover:bg-[#4B3D2A] hover:text-[#F5F0E1] transition-all group">
-                            <div className="flex justify-between items-start">
+                        <Link to={`/lifePhases/${active._id}`} className="block border-2 border-[#4B3D2A] p-10 bg-[#E8DFCA] hover:bg-[#4B3D2A] hover:text-[#F5F0E1] transition-all group relative overflow-hidden">
+                            <div className="flex justify-between items-start relative z-10">
                                 <div>
                                     <span className="text-[9px] font-black text-[#8a3a3c] uppercase tracking-widest group-hover:text-[#F5F0E1]">Currently Active</span>
-                                    <h4 className="text-5xl font-serif italic mt-2">{active.title}</h4>
+                                    <h4 className="text-5xl md:text-6xl font-serif italic mt-2">{active.title}</h4>
                                 </div>
                                 <span className="text-2xl opacity-20 group-hover:opacity-100 group-hover:translate-x-2 transition-all">→</span>
                             </div>
-                            <p className="mt-6 text-sm italic opacity-70 max-w-2xl line-clamp-2">{active.summary}</p>
+                            <p className="mt-6 text-sm italic opacity-70 max-w-2xl line-clamp-2 relative z-10">{active.summary}</p>
                         </Link>
                     ) : (
-                        <div className="p-16 border-2 border-dashed border-[#4B3D2A]/20 text-center italic opacity-30 text-sm">No active wings.</div>
+                        <div className="p-16 border-2 border-dashed border-[#4B3D2A]/20 text-center italic opacity-30 text-sm bg-[#E8DFCA]/30">No active wings.</div>
                     )}
                 </section>
 
@@ -87,12 +93,17 @@ const Dashboard = () => {
                     <h3 className="text-[9px] uppercase tracking-[0.5em] font-black opacity-40 mb-8">Architectural Floor Plan</h3>
                     <div className="floor-plan-grid">
                         {lifePhases.map((p, i) => (
-                            <Link key={p._id} to={`/lifePhases/${p._id}`} className={`museum-card p-6 group ${i % 6 === 0 ? 'md:col-span-3 md:row-span-2' : 'md:col-span-2'}`}>
+                            <Link 
+                                key={p._id} 
+                                to={`/lifePhases/${p._id}`} 
+                                className={`museum-card p-6 group ${i % 6 === 0 ? 'md:col-span-3 md:row-span-2' : 'md:col-span-2'}`}
+                            >
                                 <div className="flex justify-between items-start">
                                     <span className="text-[9px] font-mono opacity-30 group-hover:text-white/50">G-{String(lifePhases.length - i).padStart(2, '0')}</span>
-                                    {!p.endDate && <div className="h-1.5 w-1.5 bg-[#8a3a3c] animate-pulse"></div>}
+                                    {!p.endDate && <div className="h-2 w-2 bg-[#8a3a3c] animate-pulse rounded-full"></div>}
                                 </div>
-                                <h5 className={`${i % 6 === 0 ? 'text-3xl' : 'text-lg'} font-serif italic mt-4 group-hover:text-white`}>{p.title}</h5>
+                                <h5 className={`${i % 6 === 0 ? 'text-4xl' : 'text-xl'} font-serif italic mt-6 group-hover:text-white transition-colors duration-300`}>{p.title}</h5>
+                                <div className="mt-4 opacity-0 group-hover:opacity-40 transition-opacity text-[8px] uppercase tracking-widest font-black">View Gallery Record</div>
                             </Link>
                         ))}
                     </div>

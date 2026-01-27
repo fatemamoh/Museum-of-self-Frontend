@@ -1,7 +1,16 @@
 @import "tailwindcss";
 
+@theme {
+  --color-museum-cream: #F5F0E1;
+  --color-museum-beige: #D9C6A0;
+  --color-museum-tan: #A68A6B;
+  --color-museum-brown: #7A5B3A;
+  --color-museum-dark: #4B3D2A;
+  --color-crimson: #8a3a3c;
+}
+
 @plugin "daisyui" {
-  themes: museum;
+  themes: light;
 }
 
 :root {
@@ -18,6 +27,7 @@ body {
   color: var(--museum-dark);
   font-family: 'Inter', sans-serif;
   padding-top: 80px;
+  cursor: crosshair;
 }
 
 .font-serif {
@@ -33,6 +43,14 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+.spotlight {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 10%, rgba(0,0,0,0.15) 80%);
+  pointer-events: none;
+  z-index: 5;
 }
 
 .nav-museum {
@@ -51,43 +69,8 @@ body {
   z-index: 1000;
 }
 
-.hero-text-box {
-  background: rgba(217, 198, 160, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(75, 61, 42, 0.1);
-  padding: 3rem;
-  width: 90%;
-  max-width: 800px;
-  position: relative;
-  box-shadow: inset 0 0 80px rgba(75, 61, 42, 0.05);
-}
-
-.hero-text-box::before, .hero-text-box::after {
-  content: "";
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border-color: var(--museum-dark);
-}
-
-.hero-text-box::before { top: -2px; left: -2px; border-top: 3px solid; border-left: 3px solid; }
-.hero-text-box::after { bottom: -2px; right: -2px; border-bottom: 3px solid; border-right: 3px solid; }
-
-.floor-plan-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  grid-auto-rows: minmax(120px, auto);
-}
-
-@media (min-width: 768px) {
-  .floor-plan-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-}
-
 .museum-card {
-  background-color: var(--museum-beige);
+  background-color: #D9C6A0 !important;
   border: 1px solid var(--museum-tan);
   box-shadow: 6px 6px 0px rgba(75, 61, 42, 0.1);
   transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
@@ -98,14 +81,14 @@ body {
 }
 
 .museum-card:hover {
-  background-color: var(--museum-dark);
+  background-color: var(--museum-dark) !important;
   color: var(--museum-cream) !important;
   transform: translate(-5px, -5px);
   box-shadow: 12px 12px 0px var(--museum-tan);
 }
 
 .toolkit-card {
-  background: var(--museum-beige);
+  background-color: #D9C6A0 !important;
   border: 1px solid var(--museum-tan);
   padding: 2rem;
   display: flex;
@@ -116,22 +99,48 @@ body {
   overflow: hidden;
 }
 
-.toolkit-card::before {
-  content: "";
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: 0.5s;
+.toolkit-card:hover {
+  background-color: var(--museum-dark) !important;
+  color: var(--museum-cream) !important;
+  transform: translateY(-5px);
 }
 
-.toolkit-card:hover::before { left: 100%; }
+.museum-frame {
+  background: #2D2419;
+  padding: 22px;
+  box-shadow: 
+    0 40px 80px -15px rgba(0,0,0,0.4), 
+    inset 0 0 20px rgba(0,0,0,0.6),
+    0 15px 30px rgba(0,0,0,0.2);
+  position: relative;
+  max-width: 750px;
+  width: 100%;
+  border-bottom: 4px solid #1a1510;
+  border-right: 4px solid #1a1510;
+  z-index: 10;
+}
 
-.toolkit-card:hover {
-  background: var(--museum-dark);
-  color: var(--museum-cream);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(75, 61, 42, 0.2);
+.museum-frame::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid #A68A6B;
+  pointer-events: none;
+}
+
+.museum-label {
+  position: absolute;
+  bottom: -50px;
+  right: -10px;
+  background: white;
+  padding: 8px 12px;
+  border: 1px solid #d1d1d1;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+  min-width: 130px;
+  transform: rotate(1.5deg);
 }
 
 .btn-museum {
@@ -145,6 +154,7 @@ body {
   border-radius: 0;
   transition: 0.3s;
   border: none;
+  cursor: pointer;
 }
 
 .btn-museum:hover {
@@ -154,7 +164,7 @@ body {
 .museum-input {
   background-color: rgba(166, 138, 107, 0.1) !important;
   border: none !important;
-  border-bottom: 2px solid var(--museum-tan) !important;
+  border-bottom: 1px solid var(--museum-tan) !important;
   border-radius: 0 !important;
   color: var(--museum-dark) !important;
 }
@@ -166,4 +176,11 @@ body {
 
 .animate-hero {
   animation: slideUpFade 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
 }
