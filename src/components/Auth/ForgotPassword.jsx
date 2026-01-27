@@ -1,43 +1,47 @@
-import { useState } from "react";
-import { forgotPassword } from "../../services/authService";
-import { Link } from "react-router";
+import { useState } from 'react';
+import { Link } from 'react-router';
+import * as authService from '../../services/authService';
 
 const ForgotPassword = () => {
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
-    const handleChange = (e) => {
-        setMessage('');
-        setEmail(e.target.value);
-    };
+  const handleChange = (e) => {
+    setMessage('');
+    setEmail(e.target.value);
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventdefault();
-        try {
-            const responce = await forgotPassword(email);
-            setMessage(responce.message);
-        } catch (error) {
-            setMessage(err.err || 'Error sending request');
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await authService.forgotPassword(email);
+      setMessage(res.message);
+    } catch (err) {
+      setMessage(err.err || 'Error');
     }
+  };
 
-    return (
-        <main>
-            <h1>Vault Recovery</h1>
-            {message && <p>{message}</p>}
-            {!message ? (
-            <form onSubmit={ handleSubmit }>
-                <label htmlFor="email">Email Adress:</label>
-                <input type="email" id="email" value={email} placeholder="Enter your registered email"
-                    required onChange={ handleChange } />
-                <button type="submit">Send Reset Link</button>
-            </form>
-            ) : (
-                <p>Please check your inbox for further instructions.</p>
-            )}
-                <Link to="/sign-in">Return to Entrance (Sign In)</Link>
-        </main>
-    )
+  return (
+    <main>
+      <h1>Forgot Password</h1>
+      <p>{message}</p>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <Link to="/sign-in">Cancel</Link>
+    </main>
+  );
 };
 
-export default ForgotPassword
+export default ForgotPassword;

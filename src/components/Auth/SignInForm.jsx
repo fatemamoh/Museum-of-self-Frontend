@@ -1,8 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
-
+import { Link } from 'react-router';
 import { signIn } from '../../services/authService';
-
 import { UserContext } from '../../contexts/UserContext';
 
 const SignInForm = () => {
@@ -58,6 +57,9 @@ const SignInForm = () => {
             onChange={handleChange}
             required
           />
+        </div>
+        <div>
+          <Link to="/forgot-password">Forgot your password?</Link>
         </div>
         <div>
           <button>Sign In</button>

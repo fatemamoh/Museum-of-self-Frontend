@@ -20,7 +20,6 @@ async function signUp(formData) {
 async function signIn(formData) {
   const response = await axios.post(`${BASE_URL}/sign-in`, formData);
   const data = response.data;
-
   const token = data.token;
 
   window.localStorage.setItem('token', token);
@@ -43,12 +42,13 @@ async function forgotPassword(email) {
   }
 }
 
-async function resetPassword(token, password) {
+async function resetPassword(token, formData) {
   try {
-    const response = await axios.post(`${BASE_URL}/reset-password/${token}`, { password });
+    const response = await axios.post(`${BASE_URL}/reset-password/${token}`, formData);
     return response.data;
   } catch (error) {
     throw error.response.data;
   }
 }
-export { signUp, signIn, forgotPassword, resetPassword};
+
+export { signUp, signIn, forgotPassword, resetPassword };
