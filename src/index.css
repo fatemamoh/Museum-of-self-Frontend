@@ -10,71 +10,145 @@
   --museum-tan: #A68A6B;
   --museum-brown: #7A5B3A;
   --museum-dark: #4B3D2A;
+  
+  --crimson-1: #8a3a3c;
+  --crimson-2: #4a1f26;
+  --crimson-3: #141013;
+  
+  --autumn-1: #b4734f;
+  --autumn-2: #7a3b2e;
+  --autumn-3: #331718;
 
   --p: 31 36% 35%;
   --s: 33 26% 53%;
-  --a: 40 43% 74%;
+  --a: 358 41% 38%;
   --n: 35 28% 23%;
   --b1: 44 42% 92%;
   --bc: 35 28% 23%;
-  --rounded-box: 0.2rem;
-  --rounded-btn: 0.1rem;
-}
-
-[data-theme="classic"] {
-  --p: 31 36% 35%;
-  --b1: 44 42% 92%;
-  --bc: 35 28% 23%;
-}
-
-[data-theme="crimson"] {
-  --p: 358 41% 38%;
-  --s: 348 41% 20%;
-  --b1: 330 9% 7%;
-  --bc: 44 42% 92%;
-}
-
-[data-theme="autumn"] {
-  --p: 21 39% 51%;
-  --s: 10 45% 33%;
-  --b1: 358 37% 15%;
-  --bc: 44 42% 92%;
-}
-
-[data-theme="dusk"] {
-  --p: 35 28% 23%;
-  --b1: 35 28% 12%;
-  --bc: 33 26% 53%;
 }
 
 body {
-  background-color: oklch(var(--b1));
-  color: oklch(var(--bc));
-  font-family: 'Georgia', serif;
-  transition: background-color 0.8s ease, color 0.8s ease;
-  min-height: 100vh;
-  position: relative;
+  background-color: var(--museum-cream);
+  color: var(--museum-dark);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-nav {
-  background-color: oklch(var(--b1) / 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid oklch(var(--bc) / 0.1);
+.font-serif {
+  font-family: 'Playfair Display', serif;
 }
 
 .transition-museum {
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blueprint-grid {
+  background-image: 
+    linear-gradient(var(--museum-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--museum-dark) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.03;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.museum-card {
+  background: white;
+  border: 1px solid var(--museum-beige);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease;
+}
+
+.museum-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -12px rgba(75, 61, 42, 0.15);
+}
+
+.museum-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--museum-tan);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease;
+}
+
+.museum-card:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-museum {
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 1rem 2.5rem;
+  border: 2px solid var(--museum-dark);
+  background: transparent;
+  color: var(--museum-dark);
+  transition: all 0.4s ease;
+}
+
+.btn-museum:hover {
+  background: var(--museum-dark);
+  color: var(--museum-cream);
+}
+
+.nav-blur {
+  backdrop-filter: blur(12px);
+  background: rgba(245, 240, 225, 0.8);
+  border-bottom: 1px solid rgba(75, 61, 42, 0.1);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-wing {
+  animation: fadeInScale 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.floor-plan-cell {
+  border: 1px solid rgba(75, 61, 42, 0.2);
+  position: relative;
+}
+
+.floor-plan-cell::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(75, 61, 42, 0.05);
+  pointer-events: none;
+}
+
+.accent-crimson { border-color: var(--crimson-1); }
+.accent-autumn { border-color: var(--autumn-1); }
+
+.spotlight-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(166, 138, 107, 0.08), transparent 40%);
+  z-index: 1;
+  pointer-events: none;
 }

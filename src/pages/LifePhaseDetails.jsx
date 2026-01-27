@@ -25,6 +25,12 @@ const LifePhaseDetails = () => {
     return () => setTheme('classic');
   }, [id, setTheme]);
 
+  const handleUpdate = (updatedPhase) => {
+    setPhase(updatedPhase);
+    setTheme(updatedPhase.theme);
+    setIsEditing(false);
+  };
+
   const handleDelete = async () => {
     try {
       await lifePhaseService.deleteLifePhase(id);
@@ -35,25 +41,32 @@ const LifePhaseDetails = () => {
   if (!phase) return <div className="min-h-screen flex items-center justify-center italic opacity-30">Consulting Curator...</div>;
 
   return (
-    <main className="min-h-screen p-6 md:p-24 transition-museum">
-      <div className="max-w-5xl mx-auto p-12 md:p-20 shadow-[0_0_80px_rgba(0,0,0,0.1)] bg-base-100 border border-primary/10 relative overflow-hidden">
+    <main className="min-h-screen transition-museum bg-base-100 text-base-content p-10 md:p-24">
+      <div className="max-w-4xl mx-auto">
         {isEditing ? (
-          <LifePhaseForm initialData={phase} />
+          <div className="bg-base-200/50 p-10 border border-primary/10">
+            <h2 className="text-4xl font-serif italic mb-10">Renovating Wing</h2>
+            <LifePhaseForm 
+                initialData={phase} 
+                onUpdate={handleUpdate} 
+                onCancel={() => setIsEditing(false)} 
+            />
+          </div>
         ) : (
           <>
-            <header className="border-b border-primary/20 pb-12 mb-12">
-              <h1 className="text-5xl md:text-8xl font-serif italic mb-8 leading-tight">{phase.title}</h1>
-              <div className="flex justify-between items-center text-primary font-black uppercase tracking-[0.3em] text-[10px]">
-                <span>Inaugurated: {new Date(phase.startDate).toLocaleDateString()}</span>
-                <span>Conclusion: {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : 'Active Era'}</span>
-              </div>
-            </header>
-            <section className="mb-20">
-              <p className="text-3xl md:text-4xl font-serif italic leading-[1.6] opacity-90">
-                {phase.summary ? `"${phase.summary}"` : "This gallery remains open for further contributions."}
+            <header className="mb-20 border-b border-primary/20 pb-10">
+              <span className="text-[10px] font-black tracking-[0.5em] uppercase opacity-40">Exhibition Wing</span>
+              <h1 className="text-8xl font-serif italic mt-4">{phase.title}</h1>
+              <p className="text-lg tracking-widest opacity-60 mt-6">
+                {new Date(phase.startDate).toLocaleDateString()} — {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : 'Present Era'}
               </p>
+            </header>
+            
+            <section className="prose prose-xl font-serif italic opacity-80 leading-relaxed mb-20">
+              {phase.summary || "This wing is currently silent. No statement has been recorded for this period."}
             </section>
-            <div className="flex flex-wrap gap-6 pt-12 border-t border-primary/10">
+
+            <div className="flex gap-6 items-center">
               <button onClick={() => setIsEditing(true)} className="btn btn-primary rounded-none px-12">Renovate</button>
               <button onClick={() => setShowDeletePopup(true)} className="btn btn-outline btn-error rounded-none px-12">Erase Wing</button>
               <button onClick={() => navigate('/lifePhases')} className="btn btn-ghost rounded-none">Floor Plan</button>
