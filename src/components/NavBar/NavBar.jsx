@@ -1,41 +1,47 @@
 import { Link } from 'react-router';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { ThemeContext } from '../../contexts/ThemeContext';
 
 const NavBar = () => {
-  const { user, handleSignout } = useContext(UserContext);
-  const { setTheme } = useContext(ThemeContext);
-
-  const performSignout = () => {
-    setTheme('classic');
-    handleSignout();
-  };
-
-  return (
-    <nav className="flex justify-between items-center px-10 py-6 sticky top-0 z-[60] transition-museum">
-      <Link to="/" className="text-2xl font-serif italic tracking-tighter text-base-content">
-        Museum of Self
-      </Link>
-      <ul className="flex gap-10 items-center text-[10px] uppercase tracking-[0.3em] font-bold text-base-content/80">
-        {user ? (
-          <>
-            <li><Link to="/lifePhases" className="hover:text-primary transition-colors">Floor Plan</Link></li>
-            <li>
-              <button onClick={performSignout} className="btn btn-outline btn-xs rounded-none px-4 border-primary/30 hover:bg-primary hover:border-primary">
-                Sign Out
-              </button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li><Link to="/sign-in">Sign In</Link></li>
-            <li><Link to="/sign-up" className="text-primary">Join</Link></li>
-          </>
-        )}
-      </ul>
-    </nav>
-  );
+    const { user, handleSignout } = useContext(UserContext);
+    
+    return (
+        <nav className="nav-museum">
+            <Link to="/" className="text-2xl font-serif italic tracking-tighter text-[#4B3D2A]">
+                Museum of Self
+            </Link>
+            
+            <div className="flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.3em]">
+                {user && (
+                    <>
+                        <Link to="/" className="hover:text-[#A68A6B] transition-colors">
+                            Dashboard
+                        </Link>
+                        <Link to="/lifePhases" className="hover:text-[#A68A6B] transition-colors">
+                            Floor Plan
+                        </Link>
+                        <Link to="/profile" className="hover:text-[#A68A6B] transition-colors">
+                            Curator Profile
+                        </Link>
+                    </>
+                )}
+                
+                {user ? (
+                    <button 
+                        onClick={handleSignout} 
+                        className="btn-museum !py-2 !px-6 !text-[8px] ml-4"
+                    >
+                        Exit Archive
+                    </button>
+                ) : (
+                    <div className="flex gap-6">
+                        <Link to="/sign-in" className="hover:text-[#A68A6B] transition-colors">Sign In</Link>
+                        <Link to="/sign-up" className="btn-museum !py-2 !px-6 !text-[8px]">Register</Link>
+                    </div>
+                )}
+            </div>
+        </nav>
+    );
 };
 
 export default NavBar;
