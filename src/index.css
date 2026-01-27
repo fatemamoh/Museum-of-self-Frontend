@@ -1,92 +1,91 @@
-/* @import "tailwindcss";
+@import "tailwindcss";
 
 @plugin "daisyui" {
   themes: museum;
 }
 
 @theme {
-  --color-primary: #916f3b;    
-  --color-secondary: #9b8f6a; 
-  --color-accent: #674f2d;     
-  --color-neutral: #2f2e29;    
-  --color-base-100: #535346;   
-  --color-base-200: #424036;   
+  --color-museum-brown: #7A5B3A;
+  --color-museum-cream: #F5F0E1;
+  --color-museum-beige: #D9C6A0;
 }
 
 :root {
-  --p: 35 43% 40%;
-  --s: 46 22% 51%;
-  --b1: 60 8% 30%;
-  --b2: 52 10% 24%;
-  --n: 45 6% 17%;
-} */
+  --museum-cream: #F5F0E1;
+  --museum-beige: #D9C6A0;
+  --museum-tan: #A68A6B;
+  --museum-brown: #7A5B3A;
+  --museum-dark: #4B3D2A;
 
-
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --p: 31 36% 35%;
+  --s: 33 26% 53%;
+  --a: 40 43% 74%;
+  --n: 35 28% 23%;
+  --b1: 44 42% 92%;
+  --bc: 35 28% 23%;
+  
+  --rounded-box: 0.2rem;
+  --rounded-btn: 0.1rem;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+[data-theme="classic"] {
+  --p: 31 36% 35%;
+  --b1: 44 42% 92%;
+  --bc: 35 28% 23%;
 }
-a:hover {
-  color: #535bf2;
+
+[data-theme="crimson"] {
+  --p: 358 41% 38%;
+  --s: 354 41% 22%;
+  --n: 330 9% 7%;
+  --b1: 330 9% 7%;
+  --bc: 44 42% 92%;
+}
+
+[data-theme="autumn"] {
+  --p: 21 39% 51%;
+  --s: 10 45% 33%;
+  --n: 358 37% 15%;
+  --b1: 358 37% 15%;
+  --bc: 44 42% 92%;
+}
+
+[data-theme="dusk"] {
+  --p: 35 28% 23%;
+  --b1: 330 9% 7%;
+  --bc: 33 26% 53%;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  background-color: var(--museum-cream);
+  color: var(--museum-dark);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  transition: background-color 0.8s ease, color 0.8s ease;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.transition-museum {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+::-webkit-scrollbar-track {
+  background: var(--museum-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--museum-brown);
+}
+
+nav {
+  border-bottom: 1px solid var(--museum-beige);
+  background-color: rgba(245, 240, 225, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.artifact-card {
+  @apply border border-museum-brown/10 shadow-sm transition-all duration-500;
 }
