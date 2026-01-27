@@ -1,16 +1,15 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router';
 import * as lifePhaseService from '../../services/lifePhaseService';
 
-const LifePhaseForm = ({ initialData, onAdd, onUpdate, onCancel }) => {
+const LifePhaseForm = ({ initialData, onUpdate }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: initialData?.title || '',
         summary: initialData?.summary || '',
         startDate: initialData?.startDate ? new Date(initialData.startDate).toISOString().split('T')[0] : '',
         endDate: initialData?.endDate ? new Date(initialData.endDate).toISOString().split('T')[0] : '',
-        theme: initialData?.theme || 'gold'
     });
-
-    const themes = ['gold', 'olive', 'charcoal', 'terracotta', 'slate'];
 
     const handleChange = (evt) => {
         setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -18,96 +17,71 @@ const LifePhaseForm = ({ initialData, onAdd, onUpdate, onCancel }) => {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        const dataToSubmit = { ...formData };
-        if (!dataToSubmit.endDate) {
-            dataToSubmit.summary = ""; 
-        }
-
         try {
             if (initialData) {
-                const updated = await lifePhaseService.update(initialData._id, dataToSubmit);
-                onUpdate(updated);
+                const updated = await lifePhaseService.update(initialData._id, formData);
+                if (onUpdate) onUpdate(updated);
             } else {
-                const newPhase = await lifePhaseService.create(dataToSubmit);
-                onAdd(newPhase);
+                await lifePhaseService.create(formData);
+                navigate('/lifePhases');
             }
-        } catch (err) {
-            console.error("Archive Error:", err.response?.data || err.message);
-        }
+        } catch (err) { console.error(err); }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="title">Exhibit Title</label>
-                <input 
-                    type="text"
-                    id="title"
-                    name="title" 
-                    placeholder="Name this life chapter..."
-                    value={formData.title} 
-                    onChange={handleChange} 
-                    required 
-                />
-            </div>
+        <div className="max-w-4xl mx-auto py-10">
+            <nav className="breadcrumb-nav">
+                <Link to="/">Dashboard</Link>
+                <span className="breadcrumb-separator">/</span>
+                <Link to="/lifePhases">Archives</Link>
+                <span className="breadcrumb-separator">/</span>
+                <span className="text-crimson">{initialData ? 'Update_Record' : 'New_Entry'}</span>
+            </nav>
 
-            <div>
-                <div>
-                    <label htmlFor="startDate">Start Date</label>
-                    <input type="date" id="startDate" name="startDate" value={formData.startDate} onChange={handleChange} required />
+            <div className="museum-ledger flex flex-col md:flex-row min-h-[500px] animate-hero">
+                <div className="ledger-sidebar w-full md:w-1/3 p-8 flex flex-col justify-between border-b md:border-b-0">
+                    <div>
+                        <div className="w-12 h-1 bg-crimson mb-6"></div>
+                        <h2 className="text-3xl font-serif italic text-museum-dark leading-tight">
+                            {initialData ? 'Modify Gallery Wing' : 'Catalog New Era'}
+                        </h2>
+                        <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">
+                            Verify chronological data before final commit.
+                        </p>
+                    </div>
+                    <div className="text-[7px] font-mono opacity-30 mt-8">
+                        FORM_REF: {initialData ? initialData._id : 'TEMP_PHASE_NULL'}
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="endDate">End Date</label>
-                    <input type="date" id="endDate" name="endDate" value={formData.endDate} onChange={handleChange} />
-                </div>
-            </div>
 
-            {formData.endDate ? (
-                <div>
-                    <label htmlFor="summary">Reflections & Summary (Min. 20 chars)</label>
-                    <textarea 
-                        id="summary"
-                        name="summary" 
-                        minLength="20"
-                        placeholder="Summary field..."
-                        value={formData.summary} 
-                        onChange={handleChange} 
-                        required 
-                    />
-                    {formData.summary.length > 0 && formData.summary.length < 20 && (
-                        <span>{20 - formData.summary.length} more characters required</span>
-                    )}
-                </div>
-            ) : (
-                <div>
-                    <p>Define an End Date to unlock the Summary field</p>
-                </div>
-            )}
-
-            <div>
-                <span>Gallery Theme</span>
-                <div>
-                    {themes.map(t => (
-                        <label key={t} htmlFor={`theme-${t}`}>
-                            <input 
-                                type="radio" 
-                                id={`theme-${t}`}
-                                name="theme" 
-                                value={t} 
-                                checked={formData.theme === t} 
-                                onChange={handleChange} 
-                            />
-                            {t}
-                        </label>
-                    ))}
-                </div>
+                <form onSubmit={handleSubmit} className="flex-1 p-8 md:p-12 space-y-8 bg-white/30 relative z-50">
+                    <div className="space-y-6">
+                        <div className="form-control">
+                            <label className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Title of Exhibit</label>
+                            <input name="title" placeholder="ERA TITLE..." className="museum-input text-xl font-serif italic py-2" value={formData.title} onChange={handleChange} required />
+                        </div>
+                        <div className="grid grid-cols-2 gap-10">
+                            <div className="form-control">
+                                <label className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Date Opened</label>
+                                <input type="date" name="startDate" className="museum-input text-xs py-2 opacity-70" value={formData.startDate} onChange={handleChange} required />
+                            </div>
+                            <div className="form-control">
+                                <label className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Date Closed</label>
+                                <input type="date" name="endDate" className="museum-input text-xs py-2 opacity-70" value={formData.endDate} onChange={handleChange} />
+                            </div>
+                        </div>
+                        <div className="form-control">
+                            <label className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Archival Summary</label>
+                            <textarea name="summary" placeholder="NARRATIVE..." className="museum-input h-32 p-3 text-sm resize-none border border-museum-dark/10 font-serif italic" value={formData.summary} onChange={handleChange} />
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-6 pt-6">
+                        <button type="submit" className="btn-stamp px-8 py-3 text-[10px] flex-1">Commit Entry</button>
+                        <button type="button" onClick={() => navigate(-1)} className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 transition-opacity tracking-widest">Cancel</button>
+                    </div>
+                </form>
             </div>
-
-            <div>
-                <button type="submit">{initialData ? 'Update Wing' : 'Initialize Wing'}</button>
-                {onCancel && <button type="button" onClick={onCancel}>Cancel</button>}
-            </div>
-        </form>
+        </div>
     );
 };
 

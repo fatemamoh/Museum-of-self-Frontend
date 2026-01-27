@@ -1,92 +1,256 @@
-/* @import "tailwindcss";
-
-@plugin "daisyui" {
-  themes: museum;
-}
+@import "tailwindcss";
 
 @theme {
-  --color-primary: #916f3b;    
-  --color-secondary: #9b8f6a; 
-  --color-accent: #674f2d;     
-  --color-neutral: #2f2e29;    
-  --color-base-100: #535346;   
-  --color-base-200: #424036;   
+  --color-museum-cream: #F5F0E1;
+  --color-museum-beige: #D9C6A0;
+  --color-museum-tan: #A68A6B;
+  --color-museum-brown: #7A5B3A;
+  --color-museum-dark: #4B3D2A;
+  --color-crimson: #8a3a3c;
+  --font-serif: "Georgia", "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@plugin "daisyui" {
+  themes: light;
 }
 
 :root {
-  --p: 35 43% 40%;
-  --s: 46 22% 51%;
-  --b1: 60 8% 30%;
-  --b2: 52 10% 24%;
-  --n: 45 6% 17%;
-} */
-
-
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --museum-cream: #F5F0E1;
+  --museum-beige: #D9C6A0;
+  --museum-tan: #A68A6B;
+  --museum-brown: #7A5B3A;
+  --museum-dark: #4B3D2A;
 }
 
 body {
+  background-color: var(--museum-cream);
+  color: var(--museum-dark);
+  font-family: var(--font-sans);
+  padding-top: 80px;
   margin: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif) !important;
+}
+
+.blueprint-grid {
+  background-image: 
+    linear-gradient(var(--museum-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--museum-dark) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.05;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1; /* Sits above standard backgrounds but below cards */
+}
+
+.nav-museum {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4rem;
+  background: rgba(245, 240, 225, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(75, 61, 42, 0.1);
+  z-index: 9999;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.nav-link {
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: #4B3D2A !important;
+  opacity: 0.6;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.nav-link:hover {
+  opacity: 1 !important;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--museum-dark);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 100;
+}
+
+.breadcrumb-nav a {
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.breadcrumb-nav a:hover {
+  opacity: 1;
+}
+
+.breadcrumb-separator {
+  opacity: 0.2;
+}
+
+.spotlight {
+  position: relative;
+  z-index: 10;
+}
+
+.spotlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.5) 0%, transparent 80%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.museum-frame {
+  background: #2D2419;
+  padding: 18px;
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,0,0,0.5);
+  border-bottom: 5px solid #1a1510;
+  border-right: 5px solid #1a1510;
+  position: relative;
+  z-index: 10;
+}
+
+.dusty-glass {
+  position: relative;
+  overflow: hidden;
+}
+
+.dusty-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%),
+    url("https://www.transparenttextures.com/patterns/stardust.png");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.museum-ledger {
+  background-color: #E8DFCA;
+  border: 1px solid rgba(75, 61, 42, 0.2);
+  box-shadow: 20px 20px 0px rgba(75, 61, 42, 0.05);
+  position: relative;
+}
+
+.ledger-sidebar {
+  background-color: #D9C6A0;
+  border-right: 1px solid rgba(75, 61, 42, 0.1);
+}
+
+.museum-form-fixed {
+  background-color: #E8E2D0;
+  border: 1px solid #4B3D2A;
+  position: relative;
+  box-shadow: 15px 15px 0px rgba(75, 61, 42, 0.1);
+  z-index: 10;
+}
+
+.toolkit-card {
+  background-color: #E8E2D0 !important;
+  border: 1px solid rgba(75, 61, 42, 0.2);
+  color: #4B3D2A !important;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.museum-card {
+  background-color: #D9C6A0 !important;
+  border: 1px solid rgba(75, 61, 42, 0.1);
+  color: #4B3D2A !important;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.toolkit-card:hover, .museum-card:hover {
+  background-color: #4B3D2A !important;
+  color: #F5F0E1 !important;
+}
+
+.museum-label {
+  background: #F5F0E1;
+  padding: 10px 15px;
+  margin-top: 25px;
+  border-left: 3px solid #8a3a3c;
+  display: inline-block;
+  box-shadow: 5px 5px 0px rgba(0,0,0,0.05);
+  pointer-events: none;
+}
+
+.btn-stamp, .btn-museum {
+  background: transparent !important;
+  color: #4B3D2A !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-weight: 900;
+  padding: 1rem;
+  border: 2px solid #4B3D2A !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  display: inline-block;
+  position: relative;
+  z-index: 50;
+}
+
+.btn-stamp:hover, .btn-museum:hover {
+  background-color: #4B3D2A !important;
+  color: #F5F0E1 !important;
+}
+
+.btn-stamp:disabled {
+  opacity: 0.3;
+  cursor: not-allowed !important;
+}
+
+.museum-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(75, 61, 42, 0.2);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.3s ease;
+  position: relative;
+  z-index: 50;
+}
+
+.museum-input:focus {
+  border-bottom-color: #4B3D2A;
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-hero {
+  animation: slideUpFade 0.8s ease-out forwards;
 }

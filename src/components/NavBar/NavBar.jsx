@@ -1,34 +1,56 @@
-import { useContext } from 'react';
 import { Link } from 'react-router';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../contexts/UserContext';
+import { Landmark } from 'lucide-react';
 
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleSignOut = () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleLogout = () => {
     localStorage.removeItem('token');
     setUser(null);
   };
 
   return (
-    <nav>
-      <div>
-        <Link to='/'>Museum of Self</Link>
-      </div>
-      <ul>
+    <nav className={`nav-museum ${isScrolled ? 'scrolled' : ''}`}>
+      <Link to="/" className="flex items-center gap-3 group">
+        <Landmark 
+          size={isScrolled ? 20 : 24} 
+          strokeWidth={1.5} 
+          className="transition-all duration-500 group-hover:rotate-12 group-hover:text-museum-brown" 
+        />
+        <span className="font-serif italic text-xl tracking-tighter">The Self Museum</span>
+      </Link>
+
+      <div className="flex items-center gap-10">
         {user ? (
           <>
-            <li><Link to='/'>Gallery Map</Link></li>
-            <li><Link to='/profile'>Profile</Link></li>
-            <li onClick={handleSignOut}><Link to='/'>Exit Gallery</Link></li>
+            <Link to="/" className="nav-link">Dashboard</Link>
+            <Link to="/lifePhases" className="nav-link">Archives</Link>
+            <Link to="/profile" className="nav-link">Curator</Link>
+            <button 
+              onClick={handleLogout} 
+              className="nav-link !text-crimson !opacity-80 hover:!opacity-100 cursor-pointer"
+            >
+              Sign Out
+            </button>
           </>
         ) : (
           <>
-            <li><Link to='/sign-in'>Access</Link></li>
-            <li><Link to='/sign-up'>Register</Link></li>
+            <Link to="/sign-in" className="nav-link">Sign In</Link>
+            <Link to="/sign-up" className="nav-link">Register</Link>
           </>
         )}
-      </ul>
+      </div>
     </nav>
   );
 };
