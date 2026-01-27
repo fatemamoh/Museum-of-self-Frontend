@@ -7,6 +7,10 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message,setMessage] = useState('');
 
+    const handleChange = (e) => {
+        setMessage('');
+        setEmail(e.target.value);
+    };
 
   return (
 <main>
@@ -15,7 +19,7 @@ const ForgotPassword = () => {
     <form onSubmit={}>
     <label htmlFor="email">Email Adress:</label>
     <input type="email" id="email" value={email} placeholder="Enter your registered email" 
-    required onChange={}/>
+    required onChange={handleChange}/>
     <button type="submit">Send Reset Link</button>
 
     </form>
