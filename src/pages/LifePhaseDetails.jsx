@@ -25,81 +25,67 @@ const LifePhaseDetails = () => {
     setIsEditing(false);
   };
 
-  if (!phase) return <div className="min-h-screen bg-[#F5F0E1] flex items-center justify-center italic opacity-40">Consulting Catalog...</div>;
+  if (!phase) return <div className="min-h-screen bg-museum-cream flex items-center justify-center italic opacity-40">Consulting Catalog...</div>;
 
   return (
-    <main className="min-h-screen bg-[#F5F0E1] relative py-12 px-6 md:px-24 overflow-hidden">
+    <main className="min-h-screen bg-museum-cream py-12 px-6 relative overflow-hidden">
       <div className="blueprint-grid"></div>
-      
-      <div className="max-w-6xl mx-auto relative z-10">
-        <nav className="mb-12 flex items-center justify-between animate-hero">
-            <div className="flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.3em] opacity-40">
-                <Link to="/" className="hover:text-[#4B3D2A] transition-colors">Dashboard</Link>
-                <span>/</span>
-                <Link to="/lifePhases" className="hover:text-[#4B3D2A] transition-colors">Floor Plan</Link>
-                <span>/</span>
-                <span className="text-[#4B3D2A]">{phase.title}</span>
-            </div>
-            
-            <button 
-                onClick={() => navigate('/lifePhases')} 
-                className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.4em] text-[#4B3D2A] group"
-            >
-                <span className="group-hover:-translate-x-2 transition-transform duration-300">←</span> 
-                Return to Index
-            </button>
+      <div className="max-w-5xl mx-auto relative z-10">
+        <nav className="breadcrumb-nav">
+            <Link to="/">Dashboard</Link>
+            <span className="breadcrumb-separator">/</span>
+            <Link to="/lifePhases">Archives</Link>
+            <span className="breadcrumb-separator">/</span>
+            <span className="text-crimson">{phase.title}</span>
         </nav>
 
         {isEditing ? (
           <LifePhaseForm initialData={phase} onUpdate={handleUpdate} />
         ) : (
           <article className="animate-hero">
-            <header className="mb-16 border-b-4 border-[#4B3D2A] pb-10">
-                <div className="flex justify-between items-start mb-6">
-                    <span className="text-[9px] font-black tracking-[0.5em] uppercase text-[#A68A6B]">Wing Display No. {phase._id.slice(-4)}</span>
-                    {!phase.endDate && <span className="bg-[#8a3a3c] text-white text-[8px] font-black px-4 py-1 uppercase tracking-widest">Active Exhibition</span>}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 border-t-2 border-museum-dark pt-12">
+              <div className="lg:col-span-8">
+                <div className="flex items-center gap-4 mb-6">
+                   <span className="text-[9px] font-black tracking-widest uppercase opacity-30">Exhibit #{phase._id.slice(-4)}</span>
+                   {!phase.endDate && <span className="h-2 w-2 rounded-full bg-crimson animate-pulse"></span>}
                 </div>
-                <h1 className="text-6xl md:text-8xl font-serif italic tracking-tighter leading-none">{phase.title}</h1>
-                <div className="mt-12 flex flex-wrap gap-10 text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">
-                    <div className="flex flex-col gap-2">
-                        <span className="opacity-40">Opening Date</span>
-                        <span>{new Date(phase.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <span className="opacity-40">Status</span>
-                        <span>{phase.endDate ? `Closed ${new Date(phase.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}` : 'In Perpetuity'}</span>
-                    </div>
-                </div>
-            </header>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-              <div className="lg:col-span-2">
-                <h2 className="text-[10px] font-black uppercase tracking-[0.5em] mb-10 opacity-30">Curator Summary</h2>
-                <div className="text-xl md:text-2xl font-serif italic text-[#4B3D2A] leading-relaxed border-l-4 border-[#D9C6A0] pl-10 py-2">
-                  {phase.summary || "This record contains no narrative summary."}
+                <h1 className="text-5xl md:text-7xl font-serif italic mb-10 leading-tight text-museum-dark">{phase.title}</h1>
+                <div className="text-lg md:text-xl font-serif italic text-museum-dark/80 leading-relaxed border-l-2 border-museum-beige pl-8">
+                  {phase.summary || "Archival summary pending documentation..."}
                 </div>
               </div>
-
-              <aside>
-                <div className="p-8 bg-[#D9C6A0] border border-[#4B3D2A]/10 space-y-6 shadow-xl">
-                    <h3 className="text-[9px] font-black uppercase tracking-widest opacity-40 border-b border-[#4B3D2A]/10 pb-4">Administrative Controls</h3>
-                    <button onClick={() => setIsEditing(true)} className="btn-museum w-full text-center">Renovate Wing</button>
-                    <button onClick={() => setShowDeletePopup(true)} className="w-full text-[9px] font-black uppercase tracking-widest text-[#8a3a3c] hover:underline transition-all">Decommission Era</button>
+              <div className="lg:col-span-4 space-y-8">
+                <div className="p-6 bg-museum-beige/30 border border-museum-dark/10 relative overflow-hidden dusty-glass">
+                    <h3 className="text-[8px] font-black uppercase tracking-widest mb-4 opacity-40">Chronology</h3>
+                    <div className="space-y-4 text-[10px] font-bold uppercase relative z-10">
+                        <div>
+                            <p className="opacity-40 mb-1">Inauguration</p>
+                            <p className="text-museum-dark">{new Date(phase.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long' })}</p>
+                        </div>
+                        <div>
+                            <p className="opacity-40 mb-1">Conclusion</p>
+                            <p className="text-museum-dark">{phase.endDate ? new Date(phase.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long' }) : 'Ongoing'}</p>
+                        </div>
+                    </div>
                 </div>
-              </aside>
+                <div className="flex flex-col gap-3 relative z-50">
+                    <button onClick={() => setIsEditing(true)} className="btn-museum text-[10px] py-3">Modify Record</button>
+                    <button onClick={() => setShowDeletePopup(true)} className="text-[8px] font-black uppercase tracking-widest text-crimson text-center mt-2 cursor-pointer">Decommission Wing</button>
+                </div>
+              </div>
             </div>
           </article>
         )}
       </div>
 
       {showDeletePopup && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#141013]/95 backdrop-blur-sm p-6">
-          <div className="bg-[#F5F0E1] border-2 border-[#4B3D2A] p-10 max-w-lg w-full text-center">
-            <h2 className="text-[#8a3a3c] font-serif italic text-4xl mb-4">Confirm Erasure</h2>
-            <p className="mb-10 text-[10px] uppercase tracking-widest font-bold opacity-60 leading-relaxed">This action will permanently remove the era from the museum's catalog.</p>
-            <div className="flex flex-col gap-4">
-              <button onClick={() => lifePhaseService.deleteLifePhase(id).then(() => navigate('/lifePhases'))} className="btn-museum bg-[#8a3a3c] hover:bg-black">Decommission Wing</button>
-              <button onClick={() => setShowDeletePopup(false)} className="text-[9px] font-black uppercase tracking-widest opacity-40 cursor-pointer">Abort Protocol</button>
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-[#141013]/90 backdrop-blur-sm p-4">
+          <div className="bg-museum-cream border border-museum-dark p-10 max-w-sm w-full text-center relative">
+            <h2 className="text-crimson font-serif italic text-2xl mb-4">Confirm Erasure</h2>
+            <p className="mb-8 text-[9px] uppercase tracking-widest font-bold opacity-60 text-museum-dark">Permanent purging from catalog.</p>
+            <div className="flex flex-col gap-3">
+              <button onClick={() => lifePhaseService.deleteLifePhase(id).then(() => navigate('/lifePhases'))} className="btn-museum border-crimson! text-crimson! hover:bg-crimson! hover:text-white!">Confirm Delete</button>
+              <button onClick={() => setShowDeletePopup(false)} className="text-[8px] font-black uppercase tracking-widest opacity-40 cursor-pointer">Cancel</button>
             </div>
           </div>
         </div>

@@ -1,47 +1,59 @@
 import { Link } from 'react-router';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../contexts/UserContext';
+import { Landmark } from 'lucide-react';
 
 const NavBar = () => {
-    const { user, handleSignout } = useContext(UserContext);
-    
-    return (
-        <nav className="nav-museum">
-            <Link to="/" className="text-2xl font-serif italic tracking-tighter text-[#4B3D2A]">
-                Museum of Self
-            </Link>
-            
-            <div className="flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.3em]">
-                {user && (
-                    <>
-                        <Link to="/" className="hover:text-[#A68A6B] transition-colors">
-                            Dashboard
-                        </Link>
-                        <Link to="/lifePhases" className="hover:text-[#A68A6B] transition-colors">
-                            Floor Plan
-                        </Link>
-                        <Link to="/profile" className="hover:text-[#A68A6B] transition-colors">
-                            Curator Profile
-                        </Link>
-                    </>
-                )}
-                
-                {user ? (
-                    <button 
-                        onClick={handleSignout} 
-                        className="btn-museum py-2! px-6! text-[8px]! ml-4"
-                    >
-                        Exit Archive
-                    </button>
-                ) : (
-                    <div className="flex gap-6">
-                        <Link to="/sign-in" className="hover:text-[#A68A6B] transition-colors">Sign In</Link>
-                        <Link to="/sign-up" className="btn-museum py-2! px-6! text-[8px]!">Register</Link>
-                    </div>
-                )}
-            </div>
-        </nav>
-    );
+  const { user, setUser } = useContext(UserContext);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+  };
+
+  return (
+    <nav className={`nav-museum ${isScrolled ? 'scrolled' : ''}`}>
+      <Link to="/" className="flex items-center gap-3 group">
+        <Landmark 
+          size={isScrolled ? 20 : 24} 
+          strokeWidth={1.5} 
+          className="transition-all duration-500 group-hover:rotate-12 group-hover:text-museum-brownown" 
+        />
+        <span className="font-serif italic text-xl tracking-tighter">The Self Museum</span>
+      </Link>
+
+      <div className="flex items-center gap-10">
+        {user ? (
+          <>
+            <Link to="/" className="nav-link">Dashboard</Link>
+            <Link to="/lifePhases" className="nav-link">Archives</Link>
+            <Link to="/profile" className="nav-link">Curator</Link>
+            <button 
+              onClick={handleLogout} 
+              className="nav-link text-crimson opacity-80! hover:opacity-100! cursor-pointer"
+              style={{ color: '#8a3a3c' }}
+            >
+              Sign Out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/sign-in" className="nav-link">Sign In</Link>
+            <Link to="/sign-up" className="nav-link">Register</Link>
+          </>
+        )}
+      </div>
+    </nav>
+  );
 };
 
 export default NavBar;
