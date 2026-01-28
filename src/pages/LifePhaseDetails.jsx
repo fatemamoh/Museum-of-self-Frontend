@@ -46,9 +46,9 @@ const LifePhaseDetails = () => {
     <div className="min-h-screen bg-museum-cream p-6 md:p-12">
       <div className="max-w-6xl mx-auto">
         <nav className="breadcrumb-nav mb-12">
-          <Link to="/">Dashboard</Link>
+          <Link to="/">Hall</Link>
           <span className="breadcrumb-separator">/</span>
-          <Link to="/lifePhases">Archives</Link>
+          <Link to="/lifePhases">Exhibition</Link>
           <span className="breadcrumb-separator">/</span>
           <span>{phase.title}</span>
         </nav>

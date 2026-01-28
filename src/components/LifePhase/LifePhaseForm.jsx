@@ -53,11 +53,11 @@ const LifePhaseForm = ({ initialData, onUpdate }) => {
             )}
 
             <nav className="breadcrumb-nav">
-                <Link to="/">Dashboard</Link>
+                <Link to="/">Hall</Link>
                 <span className="breadcrumb-separator mx-2">/</span>
-                <Link to="/lifePhases">Archives</Link>
+                <Link to="/lifePhases">Exhibition Wing</Link>
                 <span className="breadcrumb-separator mx-2">/</span>
-                <span>{initialData ? 'Edit Phase' : 'New Archive'}</span>
+                <span>{initialData ? 'Edit Wing' : 'New  Wing'}</span>
             </nav>
 
             <div className="mt-12 bg-white/40 border border-black/10 p-12">
@@ -104,7 +104,7 @@ const LifePhaseForm = ({ initialData, onUpdate }) => {
                         </div>
                         <div className={`form-control transition-opacity duration-300 ${!formData.endDate ? 'opacity-30' : 'opacity-100'}`}>
                             <label htmlFor="summary" className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">
-                                Archival Summary {formData.endDate && <span className="text-red-700">*</span>}
+                                Exhibition Summary {formData.endDate && <span className="text-red-700">*</span>}
                             </label>
                             <textarea 
                                 id="summary"
@@ -118,7 +118,7 @@ const LifePhaseForm = ({ initialData, onUpdate }) => {
                         </div>
                     </div>
                     <div className="flex items-center gap-6 pt-6">
-                        <button type="submit" className="btn-stamp px-8 py-3 text-[10px] flex-1">Commit Entry</button>
+                        <button type="submit" className="btn-stamp px-8 py-3 text-[10px] flex-1">Create Exhibition </button>
                         <button type="button" onClick={() => navigate(-1)} className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 tracking-widest">Cancel</button>
                     </div>
                 </form>

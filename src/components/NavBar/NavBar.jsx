@@ -34,8 +34,8 @@ const NavBar = () => {
       <div className="flex items-center gap-10">
         {user ? (
           <>
-            <Link to="/" className="nav-link">Dashboard</Link>
-            <Link to="/lifePhases" className="nav-link">Archives</Link>
+            <Link to="/" className="nav-link">Hall</Link>
+            <Link to="/lifePhases" className="nav-link">Exhibition </Link>
             <Link to="/profile" className="nav-link">Curator</Link>
             <button 
               onClick={handleLogout} 

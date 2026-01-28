@@ -44,7 +44,7 @@ const Profile = () => {
         <main className="min-h-screen flex flex-col items-center justify-center p-6 relative">
             <div className="blueprint-grid"></div>
             <nav className="breadcrumb-nav w-full max-w-3xl">
-                <Link to="/">Dashboard</Link>
+                <Link to="/">Hall</Link>
                 <span className="breadcrumb-separator">/</span>
                 <span>Curator Profile</span>
             </nav>
