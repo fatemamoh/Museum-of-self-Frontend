@@ -48,7 +48,7 @@ const SignInForm = () => {
             </p>
           </div>
           {message && (
-            <div className="p-3 bg-crimson/10 border border-crimson text-[#8a3a3c] text-[9px] font-black uppercase tracking-widest">
+            <div className="p-3 bg-crimson/10 border border-crimson text-crimson text-[9px] font-black uppercase tracking-widest">
               {message}
             </div>
           )}

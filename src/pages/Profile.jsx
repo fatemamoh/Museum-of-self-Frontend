@@ -63,7 +63,7 @@ const Profile = () => {
                                     </header>
                                     <p className="text-xs font-serif italic text-museum-dark/80">{user.bio || "No archival notes."}</p>
                                     <div className="pt-4 flex gap-4">
-                                        <button onClick={() => setIsEditing(true)} className="btn-stamp !py-2 !px-4 !text-[8px]">Modify</button>
+                                        <button onClick={() => setIsEditing(true)} className="btn-stamp py-2! px-4! text-[8px]!">Modify</button>
                                         <button onClick={() => setIsDeleting(!isDeleting)} className="text-[8px] font-black uppercase text-crimson cursor-pointer">Decommission</button>
                                     </div>
                                     {isDeleting && (
@@ -80,9 +80,9 @@ const Profile = () => {
                                     <div><label className="text-[8px] font-black block mb-2 uppercase">Portrait</label><input type="file" onChange={handleFileChange} className="text-[8px]" /></div>
                                     <div><label className="text-[8px] font-black block mb-2 uppercase">Station</label><input type="text" name="location" value={formData.location} onChange={handleChange} className="museum-input text-[10px]" /></div>
                                 </div>
-                                <div><label className="text-[8px] font-black block mb-2 uppercase">Narrative</label><textarea name="bio" value={formData.bio} onChange={handleChange} className="museum-input text-[10px] h-20 resize-none" /></div>
+                                <div><label className="text-[8px] font-black block mb-2 uppercase">Biography</label><textarea name="bio" value={formData.bio} onChange={handleChange} className="museum-input text-[10px] h-20 resize-none" /></div>
                                 <div className="flex gap-4">
-                                    <button type="submit" className="btn-stamp !py-2 !px-6 !text-[8px]">Save Archive</button>
+                                    <button type="submit" className="btn-stamp py-2! px-6! text-[8px]!">Save Archive</button>
                                     <button type="button" onClick={() => setIsEditing(false)} className="text-[8px] font-black uppercase cursor-pointer">Cancel</button>
                                 </div>
                             </form>

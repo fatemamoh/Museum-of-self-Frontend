@@ -39,7 +39,7 @@ const NavBar = () => {
             <Link to="/profile" className="nav-link">Curator</Link>
             <button 
               onClick={handleLogout} 
-              className="nav-link !text-crimson !opacity-80 hover:!opacity-100 cursor-pointer"
+              className="nav-link text-crimson! opacity-80! hover:opacity-100! cursor-pointer"
             >
               Sign Out
             </button>

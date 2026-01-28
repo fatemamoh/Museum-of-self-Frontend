@@ -2,22 +2,22 @@ import axios from 'axios';
 
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/memories`;
 
-const indexByPhase = async (phaseId, pin = null) => {
+const indexByPhase = async (phaseId) => {
     try {
-        const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
-        if (pin) headers['x-master-pin'] = pin;
-        const response = await axios.get(`${BASE_URL}/phase/${phaseId}`, { headers });
+        const response = await axios.get(`${BASE_URL}/phase/${phaseId}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-const show = async (id, pin = null) => {
+const show = async (id) => {
     try {
-        const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
-        if (pin) headers['x-master-pin'] = pin;
-        const response = await axios.get(`${BASE_URL}/${id}`, { headers });
+        const response = await axios.get(`${BASE_URL}/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         return response.data;
     } catch (error) {
         throw error;
@@ -50,11 +50,11 @@ const update = async (id, formData) => {
     }
 };
 
-const deleteMemory = async (id, pin = null) => {
+const deleteMemory = async (id) => {
     try {
-        const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
-        if (pin) headers['x-master-pin'] = pin;
-        const response = await axios.delete(`${BASE_URL}/${id}`, { headers });
+        const response = await axios.delete(`${BASE_URL}/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
         return response.data;
     } catch (error) {
         throw error;
