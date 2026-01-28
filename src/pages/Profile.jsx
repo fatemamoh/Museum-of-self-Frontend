@@ -46,11 +46,11 @@ const Profile = () => {
             <nav className="breadcrumb-nav w-full max-w-3xl">
                 <Link to="/">Dashboard</Link>
                 <span className="breadcrumb-separator">/</span>
-                <span>Curator_Profile</span>
+                <span>Curator Profile</span>
             </nav>
             <div className="spotlight">
                 <div className="museum-frame animate-hero">
-                    <section className="bg-[#E8DFCA] p-10 min-w-[320px] md:min-w-[600px] relative">
+                    <section className="bg-[#E8DFCA] p-10 min-w-[320px] md:min-w-150 relative">
                         {!isEditing ? (
                             <div className="flex flex-col md:flex-row gap-8 items-start">
                                 <div className="w-44 h-56 bg-museum-beige border-[6px] border-white shadow-md shrink-0 grayscale hover:grayscale-0 transition-all duration-1000 overflow-hidden dusty-glass">
