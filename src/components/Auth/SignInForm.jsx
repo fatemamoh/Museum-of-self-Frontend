@@ -33,7 +33,7 @@ const SignInForm = () => {
       <nav className="breadcrumb-nav">
         <Link to="/">MUSEUM</Link>
         <span className="breadcrumb-separator">/</span>
-        <span className="text-crimson uppercase">Staff_Identification</span>
+        <span className="text-crimson uppercase">User Identification</span>
       </nav>
 
       <div className="museum-ledger flex flex-col md:flex-row min-h-112.5 animate-hero">
@@ -41,7 +41,7 @@ const SignInForm = () => {
           <div>
             <div className="w-12 h-1 bg-museum-darkrk mb-6"></div>
             <h2 className="text-3xl font-serif italic text-museum-darkrk leading-tight">
-              Vault Entry
+              Museum Entry
             </h2>
             <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">
               Present your identity and security key to access the archives.
@@ -94,7 +94,7 @@ const SignInForm = () => {
                 New curator? Register here
               </Link>
               <Link to="/forgot-password" size="sm" className="text-[8px] uppercase tracking-widest font-bold opacity-30 hover:opacity-80">
-                Recover Passphrase
+                Forgot Password?
               </Link>
             </div>
           </div>

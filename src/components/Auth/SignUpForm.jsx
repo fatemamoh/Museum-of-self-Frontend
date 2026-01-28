@@ -12,10 +12,9 @@ const SignUpForm = () => {
     email: '',
     password: '',
     passwordConf: '',
-    masterPin: '',
   });
 
-  const { username, email, password, passwordConf, masterPin } = formData;
+  const { username, email, password, passwordConf } = formData;
 
   const handleChange = (e) => {
     setMessage('');
@@ -34,7 +33,7 @@ const SignUpForm = () => {
   };
 
   const isFormInvalid = () => {
-    return !(username && email && password && password === passwordConf && masterPin);
+    return !(username && email && password && password === passwordConf );
   };
 
   return (
@@ -42,7 +41,7 @@ const SignUpForm = () => {
       <nav className="breadcrumb-nav">
         <Link to="/">MUSEUM</Link>
         <span className="breadcrumb-separator">/</span>
-        <span className="text-crimsonppercase">New_Curator_Registration</span>
+        <span className="text-crimsonppercase">New Curator Registration</span>
       </nav>
 
       <div className="museum-ledger flex flex-col md:flex-row min-h-137.5nimate-hero">
@@ -84,11 +83,6 @@ const SignUpForm = () => {
                 <label htmlFor="passwordConf" className="text-[9px] font-black uppercase tracking-widest text-museum-brownown mb-1 block">Confirm</label>
                 <input type="password" id="passwordConf" name="passwordConf" value={passwordConf} onChange={handleChange} placeholder="RE-ENTER" className="museum-input text-sm py-2" required />
               </div>
-            </div>
-
-            <div className="form-control">
-              <label htmlFor="masterPin" className="text-[9px] font-black uppercase tracking-widest text-museum-brownown mb-1 block">Master PIN</label>
-              <input type="password" id="masterPin" name="masterPin" value={masterPin} onChange={handleChange} placeholder="NUMBERS ONLY" className="museum-input text-sm py-2 tracking-[0.5em]" required />
             </div>
           </div>
 

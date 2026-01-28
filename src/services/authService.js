@@ -6,6 +6,7 @@ async function signUp(formData) {
   const response = await axios.post(`${BASE_URL}/sign-up`, formData);
   const data = response.data;
   const token = data.token;
+  
   window.localStorage.setItem('token', token);
 
   const tokenParts = token.split('.');
