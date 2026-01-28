@@ -90,7 +90,7 @@ const SignUpForm = () => {
             <button disabled={isFormInvalid()} type="submit" className="btn-stamp px-8 py-3 text-[10px]">
               Verify & Register
             </button>
-            <Link to="/signin" className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 text-center tracking-widest">
+            <Link to="/sign-in" className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 text-center tracking-widest">
               Already a curator? Sign In
             </Link>
           </div>
