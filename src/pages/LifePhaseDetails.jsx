@@ -5,7 +5,7 @@ import * as memoryService from '../services/memoryService';
 import LifePhaseForm from '../components/LifePhase/LifePhaseForm';
 import MemoryForm from '../components/Memory/MemoryForm';
 import MemoryCard from '../components/Memory/MemoryCard';
-import { Plus } from 'lucide-react';
+import { Plus, Lock } from 'lucide-react';
 
 const LifePhaseDetails = () => {
   const { id } = useParams();
@@ -15,69 +15,92 @@ const LifePhaseDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [showMemoryForm, setShowMemoryForm] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [pin, setPin] = useState('');
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
         const phases = await lifePhaseService.index();
         setPhase(phases.find(p => p._id === id));
-        const memoryData = await memoryService.indexByPhase(id);
+        const memoryData = await memoryService.indexByPhase(id, pin);
         setMemories(memoryData);
       } catch (err) { console.error(err); }
     };
     fetchDetails();
-  }, [id]);
+  }, [id, pin]);
 
   const handleUpdate = (updated) => { setPhase(updated); setIsEditing(false); };
 
   const handleSaveMemory = async (formData) => {
     try {
-      const newMemory = await memoryService.create(formData);
-      setMemories([newMemory, ...memories]);
+      await memoryService.create(formData);
+      const memoryData = await memoryService.indexByPhase(id, pin);
+      setMemories(memoryData);
       setShowMemoryForm(false);
     } catch (err) { console.error(err); }
   };
 
-  if (!phase) return <div className="min-h-screen bg-museum-cream flex items-center justify-center italic opacity-40">Consulting Catalog...</div>;
+  if (!phase) return <div className="min-h-screen bg-museum-cream flex items-center justify-center italic opacity-40">Opening Archive...</div>;
 
   return (
-    <main className="min-h-screen bg-museum-cream py-12 px-6 relative overflow-hidden">
-      <div className="blueprint-grid opacity-20"></div>
-      <div className="max-w-6xl mx-auto relative z-10">
+    <div className="min-h-screen bg-museum-cream p-6 md:p-12">
+      <div className="max-w-6xl mx-auto">
         <nav className="breadcrumb-nav mb-12">
-          <Link to="/">Dashboard</Link> / <Link to="/lifePhases">Archives</Link> / <span className="text-crimson">{phase.title}</span>
+          <Link to="/">Dashboard</Link>
+          <span className="breadcrumb-separator">/</span>
+          <Link to="/lifePhases">Archives</Link>
+          <span className="breadcrumb-separator">/</span>
+          <span>{phase.title}</span>
         </nav>
 
         {isEditing ? (
           <LifePhaseForm initialData={phase} onUpdate={handleUpdate} />
         ) : (
-          <article className="animate-hero">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 border-t-2 border-museum-dark pt-12 mb-20">
-              <div className="lg:col-span-8">
-                <span className="text-[9px] font-black uppercase opacity-30">Exhibit #{phase._id.slice(-4)}</span>
-                <h1 className="text-5xl md:text-7xl font-serif italic mb-10 text-museum-dark">{phase.title}</h1>
-                <p className="text-lg md:text-xl font-serif italic text-museum-dark/80 border-l-2 border-museum-beige pl-8">{phase.summary}</p>
-              </div>
-              <div className="lg:col-span-4 space-y-8">
-                <div className="p-6 bg-museum-beige/30 border border-museum-dark/10 dusty-glass">
-                  <h3 className="text-[8px] font-black uppercase tracking-widest mb-4 opacity-40">Chronology</h3>
-                  <div className="text-[10px] font-bold uppercase space-y-4">
-                    <div><p className="opacity-40">Inauguration</p><p>{new Date(phase.startDate).toLocaleDateString()}</p></div>
-                    <div><p className="opacity-40">Conclusion</p><p>{phase.endDate ? new Date(phase.endDate).toLocaleDateString() : 'Ongoing'}</p></div>
-                  </div>
+          <article className="relative">
+            <header className="mb-20 border-b-2 border-museum-dark pb-10 flex flex-col md:flex-row justify-between items-end gap-8">
+              <div className="flex-1">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-[10px] font-black tracking-widest uppercase opacity-40 px-3 py-1 border border-museum-dark/20 rounded-full">Record ID: {phase._id.slice(-6)}</span>
+                  {phase.endDate && <span className="text-[10px] font-black tracking-widest uppercase bg-museum-brown text-white px-3 py-1">Archived</span>}
                 </div>
-                <div className="flex flex-col gap-3">
-                  <button onClick={() => setIsEditing(true)} className="btn-museum text-[10px] py-3">Modify Record</button>
-                  <button onClick={() => setShowDeletePopup(true)} className="text-[8px] font-black uppercase text-crimson text-center">Decommission Wing</button>
+                <h1 className="text-6xl md:text-8xl font-serif italic mb-6 leading-tight">{phase.title}</h1>
+                <div className="flex gap-12">
+                    <div className="flex flex-col">
+                        <span className="text-[9px] font-black uppercase opacity-30 mb-1">Time Period</span>
+                        <span className="text-xs font-bold tracking-widest">{new Date(phase.startDate).toLocaleDateString()} — {phase.endDate ? new Date(phase.endDate).toLocaleDateString() : 'Active'}</span>
+                    </div>
                 </div>
               </div>
-            </div>
+              <div className="flex gap-4">
+                <button onClick={() => setIsEditing(true)} className="btn-museum px-8">Edit Phase</button>
+                <button onClick={() => setShowDeletePopup(true)} className="btn-museum px-8 border-crimson/20 text-crimson hover:bg-crimson/5">Erase</button>
+              </div>
+            </header>
 
-            <section className="mt-24 border-t border-museum-dark/10 pt-16">
-              <div className="flex justify-between items-end mb-12">
-                <div>
-                  <h2 className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-2">Inventory</h2>
-                  <h3 className="text-4xl font-serif italic">Curated Artifacts</h3>
+            <section className="grid grid-cols-1 lg:grid-cols-3 gap-16 mb-24">
+              <div className="lg:col-span-2 space-y-8">
+                <div className="flex items-center gap-4 opacity-20">
+                  <div className="h-px flex-1 bg-museum-dark"></div>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Curator's Statement</span>
+                </div>
+                <p className="text-xl md:text-2xl font-serif italic leading-relaxed opacity-80">{phase.summary || "No archival notes provided for this period."}</p>
+              </div>
+            </section>
+
+            <section className="mt-32">
+              <div className="flex justify-between items-center mb-12 border-b border-museum-dark/10 pb-6">
+                <div className="flex items-center gap-8">
+                  <h3 className="text-sm font-black uppercase tracking-[0.3em] text-museum-dark/30 italic">Curated Artifacts</h3>
+                  <div className="flex items-center gap-2 bg-museum-dark/5 px-4 py-2 border border-museum-dark/10">
+                    <Lock size={12} className="opacity-30" />
+                    <input 
+                      type="password" 
+                      placeholder="Enter Vault PIN" 
+                      className="bg-transparent text-[10px] outline-none w-24 font-black uppercase tracking-widest"
+                      value={pin}
+                      onChange={(e) => setPin(e.target.value)}
+                    />
+                  </div>
                 </div>
                 {!showMemoryForm && <button onClick={() => setShowMemoryForm(true)} className="btn-stamp flex items-center gap-2 px-6 text-[9px]"><Plus size={14}/> Curate Artifact</button>}
               </div>
@@ -96,12 +119,12 @@ const LifePhaseDetails = () => {
             <h2 className="text-crimson font-serif italic text-2xl mb-4">Confirm Erasure</h2>
             <div className="flex flex-col gap-3">
               <button onClick={() => lifePhaseService.deleteLifePhase(id).then(() => navigate('/lifePhases'))} className="btn-museum border-crimson! text-crimson!">Confirm Delete</button>
-              <button onClick={() => setShowDeletePopup(false)} className="text-[8px] font-black uppercase opacity-40">Cancel</button>
+              <button onClick={() => setShowDeletePopup(false)} className="text-[10px] font-black uppercase opacity-40 py-2">Cancel</button>
             </div>
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 };
 

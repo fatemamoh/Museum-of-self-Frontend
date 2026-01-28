@@ -28,7 +28,7 @@ const NavBar = () => {
           strokeWidth={1.5} 
           className="transition-all duration-500 group-hover:rotate-12 group-hover:text-museum-brown" 
         />
-        <span className="font-serif italic text-xl tracking-tighter">The Self Museum</span>
+        <span className="font-serif italic text-xl tracking-tighter"> Museum of Self</span>
       </Link>
 
       <div className="flex items-center gap-10">

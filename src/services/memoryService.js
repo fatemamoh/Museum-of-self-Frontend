@@ -6,7 +6,6 @@ const indexByPhase = async (phaseId, pin = null) => {
     try {
         const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
         if (pin) headers['x-master-pin'] = pin;
-
         const response = await axios.get(`${BASE_URL}/phase/${phaseId}`, { headers });
         return response.data;
     } catch (error) {
@@ -18,7 +17,6 @@ const show = async (id, pin = null) => {
     try {
         const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
         if (pin) headers['x-master-pin'] = pin;
-
         const response = await axios.get(`${BASE_URL}/${id}`, { headers });
         return response.data;
     } catch (error) {
@@ -30,8 +28,7 @@ const create = async (formData) => {
     try {
         const response = await axios.post(BASE_URL, formData, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'multipart/form-data'
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
         return response.data;
@@ -44,8 +41,7 @@ const update = async (id, formData) => {
     try {
         const response = await axios.put(`${BASE_URL}/${id}`, formData, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'multipart/form-data'
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
         return response.data;
@@ -58,7 +54,6 @@ const deleteMemory = async (id, pin = null) => {
     try {
         const headers = { 'Authorization': `Bearer ${localStorage.getItem('token')}` };
         if (pin) headers['x-master-pin'] = pin;
-
         const response = await axios.delete(`${BASE_URL}/${id}`, { headers });
         return response.data;
     } catch (error) {
