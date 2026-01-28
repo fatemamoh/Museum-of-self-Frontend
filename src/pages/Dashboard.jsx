@@ -46,7 +46,6 @@ const Dashboard = () => {
 
     const active = lifePhases.find(p => !p.endDate);
     
-    // Calculate the most recent activity date
     const lastUpdate = allMemories.length > 0 
         ? new Date(Math.max(...allMemories.map(m => new Date(m.createdAt))))
         : null;
@@ -55,7 +54,6 @@ const Dashboard = () => {
         <main className="min-h-screen relative bg-museum-cream pb-20 selection:bg-crimson selection:text-white overflow-x-hidden">
             <div className="blueprint-grid fixed inset-0 opacity-20 pointer-events-none"></div>
 
-            {/* HERO SECTION WITH COUNTERS */}
             <section className="h-[65vh] spotlight flex items-center justify-center px-6 relative overflow-hidden border-b border-museum-dark/10 bg-museum-beige/20">
                 <div key={heroIndex} className="text-center animate-hero z-10 flex flex-col items-center">
                     
@@ -98,7 +96,6 @@ const Dashboard = () => {
 
             <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 relative z-10">
                 
-                {/* RECENT ACQUISITIONS */}
                 <section className="mb-24">
                     <div className="flex items-center justify-between mb-10">
                         <h3 className="text-[9px] uppercase tracking-[0.5em] font-black opacity-40">Recent Acquisitions</h3>
@@ -165,7 +162,6 @@ const Dashboard = () => {
                     </div>
                 </section>
 
-                {/* BOTTOM TOOLS */}
                 <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <Link to="/lifePhases/new" className="toolkit-card p-8 group border border-museum-dark/10 hover:border-crimson transition-colors bg-[#fdfcf9]">
                         <PenTool size={20} className="opacity-40" />
