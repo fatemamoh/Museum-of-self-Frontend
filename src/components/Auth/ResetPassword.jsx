@@ -35,7 +35,7 @@ const ResetPassword = () => {
       <nav className="breadcrumb-nav">
         <Link to="/">MUSEUM</Link>
         <span className="breadcrumb-separator">/</span>
-        <span className="text-crimson uppercase">Reset Password</span>
+        <span className="text-crimson uppercase">Reset security key</span>
       </nav>
 
       <div className="museum-ledger flex flex-col md:flex-row min-h-125 animate-hero">
@@ -46,7 +46,7 @@ const ResetPassword = () => {
               Restore Access
             </h2>
             <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">
-              Define a new security password to re-secure your archives.
+              Define a new security key to re-secure your archives.
             </p>
           </div>
           {message.text && (
@@ -59,12 +59,12 @@ const ResetPassword = () => {
         <form autoComplete="off" onSubmit={handleSubmit} className="flex-1 p-8 md:p-12 space-y-6 bg-white/30 relative z-50">
           <div className="space-y-6">
             <div className="form-control">
-              <label htmlFor="password" className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">New Passphrase</label>
+              <label htmlFor="password" className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">New Key</label>
               <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} placeholder="MIN. 8 CHARACTERS" className="museum-input text-xl py-2" required />
             </div>
 
             <div className="form-control">
-              <label htmlFor="confirmPassword" className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Confirm Passphrase</label>
+              <label htmlFor="confirmPassword" className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Confirm Key</label>
               <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="RE-ENTER NEW PASSPHRASE" className="museum-input text-xl py-2" required />
             </div>
 
@@ -72,7 +72,7 @@ const ResetPassword = () => {
           </div>
 
           <div className="flex flex-col gap-4 pt-6">
-            <button type="submit" className="btn-stamp px-8 py-3 text-[10px]">Update Password</button>
+            <button type="submit" className="btn-stamp px-8 py-3 text-[10px]">Update Key</button>
           </div>
         </form>
       </div>

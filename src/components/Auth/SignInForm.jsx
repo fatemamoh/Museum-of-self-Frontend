@@ -90,7 +90,7 @@ const SignInForm = () => {
               Authorize Access
             </button>
             <div className="flex flex-col gap-2 items-center">
-              <Link to="/signup" className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 tracking-widest">
+              <Link to="/sign-up" className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 tracking-widest">
                 New curator? Register here
               </Link>
               <Link to="/forgot-password" size="sm" className="text-[8px] uppercase tracking-widest font-bold opacity-30 hover:opacity-80">
