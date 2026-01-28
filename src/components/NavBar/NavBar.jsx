@@ -28,18 +28,18 @@ const NavBar = () => {
           strokeWidth={1.5} 
           className="transition-all duration-500 group-hover:rotate-12 group-hover:text-museum-brown" 
         />
-        <span className="font-serif italic text-xl tracking-tighter">The Self Museum</span>
+        <span className="font-serif italic text-xl tracking-tighter"> Museum of Self</span>
       </Link>
 
       <div className="flex items-center gap-10">
         {user ? (
           <>
-            <Link to="/" className="nav-link">Dashboard</Link>
-            <Link to="/lifePhases" className="nav-link">Archives</Link>
+            <Link to="/" className="nav-link">Hall</Link>
+            <Link to="/lifePhases" className="nav-link">Exhibition </Link>
             <Link to="/profile" className="nav-link">Curator</Link>
             <button 
               onClick={handleLogout} 
-              className="nav-link !text-crimson !opacity-80 hover:!opacity-100 cursor-pointer"
+              className="nav-link text-crimson! opacity-80! hover:opacity-100! cursor-pointer"
             >
               Sign Out
             </button>

@@ -14,7 +14,7 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import LifePhaseDetails from './pages/LifePhaseDetails';
 import LifePhaseList from './pages/LifePhaseList';
-
+import MemoryDetails from './pages/MemoryDetails'
 const App = () => {
   const { user } = useContext(UserContext);
 
@@ -36,6 +36,7 @@ const App = () => {
         <Route path='/lifePhases/new' element={user ? <LifePhaseForm /> : <Landing />} />
         <Route path='/lifePhases/:id' element={user ? <LifePhaseDetails /> : <Landing />} />
         
+        <Route path="/memories/:id" element={<MemoryDetails />} />
         <Route path='*' element={<Landing />} />
       </Routes>
     </>

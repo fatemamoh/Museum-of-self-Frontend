@@ -33,22 +33,22 @@ const SignInForm = () => {
       <nav className="breadcrumb-nav">
         <Link to="/">MUSEUM</Link>
         <span className="breadcrumb-separator">/</span>
-        <span className="text-crimson uppercase">Staff_Identification</span>
+        <span className="text-crimson uppercase">User Identification</span>
       </nav>
 
       <div className="museum-ledger flex flex-col md:flex-row min-h-112.5 animate-hero">
         <div className="ledger-sidebar w-full md:w-1/3 p-8 flex flex-col justify-between border-b md:border-b-0">
           <div>
-            <div className="w-12 h-1 bg-museum-darkrk mb-6"></div>
-            <h2 className="text-3xl font-serif italic text-museum-darkrk leading-tight">
-              Vault Entry
+            <div className="w-12 h-1 bg-museum-dark mb-6"></div>
+            <h2 className="text-3xl font-serif italic text-museum-dark leading-tight">
+              Museum Entry
             </h2>
             <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">
               Present your identity and security key to access the archives.
             </p>
           </div>
           {message && (
-            <div className="p-3 bg-crimson/10order border-crimsonext-[#8a3a3c] text-[9px] font-black uppercase tracking-widest">
+            <div className="p-3 bg-crimson/10 border border-crimson text-crimson text-[9px] font-black uppercase tracking-widest">
               {message}
             </div>
           )}
@@ -71,7 +71,7 @@ const SignInForm = () => {
             </div>
 
             <div className="form-control">
-              <label htmlFor="password" className="text-[9px] font-black uppercase tracking-widest text-museum-brownown mb-1 block">Security Key</label>
+              <label htmlFor="password" className="text-[9px] font-black uppercase tracking-widest text-museum-brown mb-1 block">Security Key</label>
               <input 
                 type="password" 
                 id="password" 
@@ -90,11 +90,11 @@ const SignInForm = () => {
               Authorize Access
             </button>
             <div className="flex flex-col gap-2 items-center">
-              <Link to="/signup" className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 tracking-widest">
+              <Link to="/sign-up" className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 tracking-widest">
                 New curator? Register here
               </Link>
               <Link to="/forgot-password" size="sm" className="text-[8px] uppercase tracking-widest font-bold opacity-30 hover:opacity-80">
-                Recover Passphrase
+                Forgot Password?
               </Link>
             </div>
           </div>
