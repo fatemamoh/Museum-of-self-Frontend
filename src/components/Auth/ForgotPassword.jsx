@@ -26,14 +26,14 @@ const ForgotPassword = () => {
       <nav className="breadcrumb-nav">
         <Link to="/">MUSEUM</Link>
         <span className="breadcrumb-separator">/</span>
-        <span className="text-crimsonppercase">Lost security key</span>
+        <span className="text-crimson uppercase">Lost security key</span>
       </nav>
 
-      <div className="museum-ledger flex flex-col md:flex-row min-h-100mate-hero">
+      <div className="museum-ledger flex flex-col md:flex-row min-h-100 animate-hero">
         <div className="ledger-sidebar w-full md:w-1/3 p-8 flex flex-col justify-between border-b md:border-b-0">
           <div>
             <div className="w-12 h-1 bg-museum-dark mb-6"></div>
-            <h2 className="text-3xl font-serif italic text-museum-darkrk leading-tight">
+            <h2 className="text-3xl font-serif italic text-museum-dark leading-tight">
               Lost Key
             </h2>
             <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">

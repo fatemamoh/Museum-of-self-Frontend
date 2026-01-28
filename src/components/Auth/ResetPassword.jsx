@@ -41,8 +41,8 @@ const ResetPassword = () => {
       <div className="museum-ledger flex flex-col md:flex-row min-h-125 animate-hero">
         <div className="ledger-sidebar w-full md:w-1/3 p-8 flex flex-col justify-between border-b md:border-b-0">
           <div>
-            <div className="w-12 h-1 bg-crimsonb-6"></div>
-            <h2 className="text-3xl font-serif italic text-museum-darkrk leading-tight">
+            <div className="w-12 h-1 bg-crimson mb-6"></div>
+            <h2 className="text-3xl font-serif italic text-museum dark leading-tight">
               Restore Access
             </h2>
             <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">
