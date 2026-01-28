@@ -67,7 +67,7 @@ const MemoryForm = ({ phaseId, onSave, onCancel }) => {
 
             <div className="flex justify-between items-center mb-10">
                 <div>
-                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-museum-brown mb-1">New Accession</h3>
+                    <h3 className="text-[11px] font-black uppercase tracking-[0.4em] text-museum-brown mb-1">New Artifact</h3>
                     <p className="text-[9px] uppercase font-bold opacity-30">Documenting an artifact for the permanent collection</p>
                 </div>
                 <button onClick={onCancel} className="p-2 hover:bg-red-50 text-red-900/40 hover:text-red-900 transition-all">
@@ -78,8 +78,8 @@ const MemoryForm = ({ phaseId, onSave, onCancel }) => {
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div className="space-y-8">
                     <div className="form-control">
-                        <label className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-2 block">Artifact Nomenclature</label>
-                        <input required name="title" className="museum-input text-lg font-serif italic" value={formData.title} onChange={handleChange} placeholder="Object Name..." />
+                        <label className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-2 block">Artifact Title</label>
+                        <input required name="title" className="museum-input text-lg font-serif italic" value={formData.title} onChange={handleChange} placeholder=" Project Week..." />
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
@@ -98,7 +98,7 @@ const MemoryForm = ({ phaseId, onSave, onCancel }) => {
                     </div>
 
                     <div className="form-control">
-                        <label className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-2 block">Narrative Transcription / URL</label>
+                        <label className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-2 block">Narrative Transcription | Story </label>
                         <textarea name="story" className="museum-input h-40 italic leading-relaxed text-sm" value={formData.story} onChange={handleChange} placeholder={formData.type === 'Link' ? 'https://...' : 'Describe the significance of this artifact...'} />
                     </div>
                 </div>
@@ -129,16 +129,16 @@ const MemoryForm = ({ phaseId, onSave, onCancel }) => {
                             </select>
                         </div>
                         <div className="form-control">
-                            <label className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-2 block">Accession Date</label>
+                            <label className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-2 block">Moment Date</label>
                             <input type="date" name="capturedDate" className="museum-input text-[10px] font-bold" value={formData.capturedDate} onChange={handleChange} />
                         </div>
                     </div>
 
                     <div className="pt-6">
                         <button type="submit" className="w-full bg-museum-dark text-white text-[10px] font-black uppercase tracking-[0.4em] py-5 hover:bg-museum-brown transition-all shadow-xl">
-                            Commit to Archive
+                            Add to Exhibition
                         </button>
-                        <p className="text-[8px] text-center mt-4 opacity-30 uppercase font-bold tracking-widest">Permanent Record Entry</p>
+                        <p className="text-[8px] text-center mt-4 opacity-30 uppercase font-bold tracking-widest">Permanent Artifact Entry</p>
                     </div>
                 </div>
             </form>
