@@ -50,7 +50,7 @@ const LifePhaseList = () => {
                 <header className="mb-12 flex flex-col md:flex-row justify-between items-end border-b-2 border-museum-dark pb-8 gap-6">
                     <div>
                         <span className="text-[9px] uppercase tracking-[0.5em] font-black text-museum-tan">Master Catalog</span>
-                        <h1 className="text-6xl font-serif italic tracking-tighter text-museum-dark mt-2">Floor Plan</h1>
+                        <h1 className="text-6xl font-serif italic tracking-tighter text-museum-dark mt-2"> Exhibition </h1>
                     </div>
                     
                     <div className="flex flex-col items-end gap-4 w-full md:w-auto">
