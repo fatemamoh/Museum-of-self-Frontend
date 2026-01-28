@@ -26,7 +26,7 @@ const ForgotPassword = () => {
       <nav className="breadcrumb-nav">
         <Link to="/">MUSEUM</Link>
         <span className="breadcrumb-separator">/</span>
-        <span className="text-crimsonppercase">Credential_Recovery</span>
+        <span className="text-crimsonppercase">Lost security key</span>
       </nav>
 
       <div className="museum-ledger flex flex-col md:flex-row min-h-100mate-hero">
@@ -34,7 +34,7 @@ const ForgotPassword = () => {
           <div>
             <div className="w-12 h-1 bg-museum-dark mb-6"></div>
             <h2 className="text-3xl font-serif italic text-museum-darkrk leading-tight">
-              Lost Keys
+              Lost Key
             </h2>
             <p className="text-[10px] mt-4 opacity-60 leading-relaxed uppercase tracking-tighter">
               Enter your registered email address to receive a recovery link.
@@ -56,7 +56,7 @@ const ForgotPassword = () => {
           </div>
 
           <div className="flex flex-col gap-4 pt-6">
-            <button type="submit" className="btn-stamp px-8 py-3 text-[10px]">Issue Reset Request</button>
+            <button type="submit" className="btn-stamp px-8 py-3 text-[10px]"> Recover key Request</button>
             <Link to="/sign-in" className="text-[9px] font-black uppercase opacity-40 hover:opacity-100 text-center tracking-widest">Return to Sign In</Link>
           </div>
         </form>
