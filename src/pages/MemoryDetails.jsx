@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import * as memoryService from '../services/memoryService';
 import * as reflectionService from '../services/reflectionService';
-import { Calendar, Tag, ArrowLeft, Trash2, Plus, X, Edit3, ScanLine, Landmark, FileText } from 'lucide-react';
+import { Calendar, Tag, ArrowLeft, Trash2, Plus, X, Edit3, ScanLine, Landmark, FileText, Check, RotateCcw } from 'lucide-react';
 
 const MemoryDetails = () => {
     const { id } = useParams();
@@ -10,6 +10,8 @@ const MemoryDetails = () => {
     const [memory, setMemory] = useState(null);
     const [reflections, setReflections] = useState([]);
     const [isEditingMemory, setIsEditingMemory] = useState(false);
+    const [editingRefId, setEditingRefId] = useState(null);
+    const [editRefContent, setEditRefContent] = useState('');
     const [showReflectionForm, setShowReflectionForm] = useState(false);
     const [newReflection, setNewReflection] = useState({ content: '', reflectionType: 'Growth', growthScale: 5 });
 
@@ -55,6 +57,37 @@ const MemoryDetails = () => {
             const updated = await memoryService.update(id, memory);
             setMemory(updated);
             setIsEditingMemory(false);
+        } catch (err) { console.error(err); }
+    };
+
+    const handleAddReflection = async (e) => {
+        e.preventDefault();
+        try {
+            const created = await reflectionService.create(id, newReflection);
+            setReflections([created, ...reflections]);
+            setNewReflection({ content: '', reflectionType: 'Growth', growthScale: 5 });
+            setShowReflectionForm(false);
+        } catch (err) { console.error(err); }
+    };
+
+    const handleStartEditRef = (ref) => {
+        setEditingRefId(ref._id);
+        setEditRefContent(ref.content);
+    };
+
+    const handleUpdateReflection = async (refId) => {
+        try {
+            const updated = await reflectionService.update(refId, { content: editRefContent });
+            setReflections(reflections.map(r => r._id === refId ? updated : r));
+            setEditingRefId(null);
+        } catch (err) { console.error(err); }
+    };
+
+    const handleDeleteReflection = async (refId) => {
+        if (!window.confirm("Delete this reflection?")) return;
+        try {
+            await reflectionService.deleteReflection(refId);
+            setReflections(reflections.filter(r => r._id !== refId));
         } catch (err) { console.error(err); }
     };
 
@@ -107,27 +140,22 @@ const MemoryDetails = () => {
                                 
                                 <div className="max-w-2xl">
                                     <h1 className="text-5xl font-serif italic mb-8 text-museum-dark tracking-tight leading-tight">{memory.title}</h1>
-                                    
                                     <div className="mb-12">
                                         <div className="flex items-center gap-3 mb-6">
                                             <div className="h-[1px] w-8 bg-crimson/40"></div>
-                                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-crimson">Narrative Transcription</span>
+                                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-crimson">Story of the Memory</span>
                                         </div>
-                                        <p className="text-lg font-serif italic text-museum-dark/90 leading-[1.8] first-letter:text-4xl first-letter:font-black first-letter:mr-3 first-letter:float-left">
-                                            {memory.story}
-                                        </p>
+                                        <p className="text-lg font-serif italic text-museum-dark/90 leading-[1.8] first-letter:text-4xl first-letter:font-black first-letter:mr-3 first-letter:float-left">{memory.story}</p>
                                     </div>
-
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 opacity-40 border-t border-museum-dark/10 pt-8 mb-10">
                                         <div className="space-y-1"><p className="text-[7px] font-black uppercase tracking-widest">Date</p><div className="flex items-center gap-1.5 text-xs font-serif italic"><Calendar size={11} /> {new Date(memory.capturedDate).toLocaleDateString()}</div></div>
-                                        <div className="space-y-1"><p className="text-[7px] font-black uppercase tracking-widest">Aura</p><div className="flex items-center gap-1.5 text-xs font-serif italic"><Tag size={11} /> {memory.moodTag}</div></div>
+                                        <div className="space-y-1"><p className="text-[7px] font-black uppercase tracking-widest">Feeling</p><div className="flex items-center gap-1.5 text-xs font-serif italic"><Tag size={11} /> {memory.moodTag}</div></div>
                                         <div className="space-y-1"><p className="text-[7px] font-black uppercase tracking-widest">Origin</p><div className="flex items-center gap-1.5 text-xs font-serif italic"><Landmark size={11} /> {memory.origin}</div></div>
                                         <div className="space-y-1"><p className="text-[7px] font-black uppercase tracking-widest">ID</p><div className="flex items-center gap-1.5 text-[10px] font-mono"><ScanLine size={11} /> {id.slice(-6)}</div></div>
                                     </div>
-
                                     {memory.curatorNote && (
                                         <div className="p-6 bg-museum-dark/[0.04] border-l-4 border-museum-dark/20 italic">
-                                            <p className="text-[8px] font-black uppercase tracking-[0.3em] opacity-40 mb-2 italic">Curator Note</p>
+                                            <p className="text-[8px] font-black uppercase tracking-[0.3em] opacity-40 mb-2">Curator Note</p>
                                             <p className="text-[11px] font-serif opacity-60 uppercase tracking-tighter leading-relaxed">{memory.curatorNote}</p>
                                         </div>
                                     )}
@@ -142,18 +170,40 @@ const MemoryDetails = () => {
                             <button onClick={() => setShowReflectionForm(true)} className="text-[8px] font-black text-crimson uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform"><Plus size={12}/> New Entry</button>
                         </div>
                         {showReflectionForm && (
-                            <form onSubmit={(e) => { e.preventDefault(); reflectionService.create(id, newReflection).then(res => { setReflections([res, ...reflections]); setShowReflectionForm(false); }); }} className="p-6 bg-museum-dark text-museum-cream border-l-4 border-crimson space-y-4 shadow-2xl animate-hero">
-                                <select value={newReflection.reflectionType} onChange={(e) => setNewReflection({...newReflection, reflectionType: e.target.value})} className="bg-transparent border-b border-white/10 text-[9px] uppercase font-black outline-none block w-full">{['Growth', 'Gratitude', 'Hindsight', 'Longing', 'Lesson', 'Revelation', 'Clarity'].map(t => <option key={t} value={t} className="text-black">{t}</option>)}</select>
-                                <textarea required value={newReflection.content} onChange={(e) => setNewReflection({...newReflection, content: e.target.value})} className="w-full bg-transparent border-none outline-none font-serif italic text-base h-24 resize-none" />
-                                <button type="submit" className="w-full py-3 bg-crimson text-white text-[8px] font-black uppercase tracking-[0.4em]">Record</button>
+                            <form onSubmit={handleAddReflection} className="p-6 bg-museum-dark text-museum-cream border-l-4 border-crimson space-y-4 shadow-2xl animate-hero">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <select value={newReflection.reflectionType} onChange={(e) => setNewReflection({...newReflection, reflectionType: e.target.value})} className="bg-transparent border-b border-white/10 text-[9px] uppercase font-black outline-none block w-full">{['Growth', 'Gratitude', 'Hindsight', 'Longing', 'Lesson', 'Revelation', 'Clarity'].map(t => <option key={t} value={t} className="text-black">{t}</option>)}</select>
+                                    <div className="space-y-1">
+                                        <label className="text-[7px] font-black uppercase tracking-widest opacity-50 block text-right">Impact Scale: {newReflection.growthScale}</label>
+                                        <input type="range" min="1" max="10" value={newReflection.growthScale} onChange={(e) => setNewReflection({...newReflection, growthScale: e.target.value})} className="w-full accent-crimson h-1" />
+                                    </div>
+                                </div>
+                                <textarea required value={newReflection.content} onChange={(e) => setNewReflection({...newReflection, content: e.target.value})} className="w-full bg-transparent border-none outline-none font-serif italic text-base h-24 resize-none" placeholder="Transcribe reflection..." />
+                                <button type="submit" className="w-full py-3 bg-crimson text-white text-[8px] font-black uppercase tracking-[0.4em]">Record entry</button>
                             </form>
                         )}
                         <div className="border-l border-museum-dark/5 ml-1">
                             {reflections.map((ref) => (
                                 <div key={ref._id} className="pl-8 pb-10 group relative">
-                                    <div className="absolute left-[-3.5px] top-0 w-1.5 h-1.5 rounded-full bg-museum-cream border border-museum-dark"></div>
-                                    <div className="flex justify-between text-[7px] font-black opacity-30 uppercase tracking-widest mb-3">{new Date(ref.createdAt).toLocaleDateString()} // {ref.reflectionType}</div>
-                                    <p className="text-sm font-serif italic opacity-70 leading-relaxed text-museum-dark">{ref.content}</p>
+                                    <div className="absolute left-[-3.5px] top-0 w-1.5 h-1.5 rounded-full bg-museum-cream border border-museum-dark group-hover:bg-crimson transition-colors"></div>
+                                    <div className="flex justify-between text-[7px] font-black opacity-30 uppercase tracking-widest mb-3">
+                                        <span>{new Date(ref.createdAt).toLocaleDateString()} // {ref.reflectionType} (Impact: {ref.growthScale || 5})</span>
+                                        <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button onClick={() => handleStartEditRef(ref)}><Edit3 size={10} /></button>
+                                            <button onClick={() => handleDeleteReflection(ref._id)}><Trash2 size={10} className="text-crimson" /></button>
+                                        </div>
+                                    </div>
+                                    {editingRefId === ref._id ? (
+                                        <div className="space-y-3">
+                                            <textarea className="w-full bg-white/50 border border-museum-dark/10 p-2 font-serif italic text-sm outline-none" value={editRefContent} onChange={(e) => setEditRefContent(e.target.value)} />
+                                            <div className="flex gap-2">
+                                                <button onClick={() => handleUpdateReflection(ref._id)} className="bg-museum-dark text-white p-1 rounded"><Check size={12}/></button>
+                                                <button onClick={() => setEditingRefId(null)} className="bg-white border border-museum-dark/10 p-1 rounded"><X size={12}/></button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm font-serif italic opacity-70 leading-relaxed text-museum-dark">{ref.content}</p>
+                                    )}
                                 </div>
                             ))}
                         </div>
