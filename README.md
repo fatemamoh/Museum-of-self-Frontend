@@ -1,69 +1,156 @@
-# 🏛️ Initial Project Plan: The Museum of Self
+# 🏛️ Museum of Self: Frontend
 
-**Concept:** A private, intentional digital archive. The system uses a **Curator** metaphor to organize life into colored **"Rooms"** (Life Phases) containing **"Artifacts"** (Memories), featuring a dual-layer security system (Password + MasterPIN).
+A specialized MERN-stack application for personal archiving, where users become the curators of their own history. 
+
+> **Looking for the API?**
+> Visit the [Museum of Self Backend Repository](https://github.com/fatemamoh/Museum-of-self-Backend) to see how the vault is managed.
 
 ---
 
-## 👤 User Stories: The Curator’s Journey
+## 📸 Exhibition Preview
 
-### 1. The Entrance (Security & Identity)
-* **Secure Access:** As a Curator, I want to create an account with a password and a **MasterPIN** so my history is protected.
-* **The Office:** As a Curator, I want to edit my profile (Bio, Location, and Avatar) so the "Museum" feels personal.
+### Landing Page
+![Landing page](./src/assets/landing.png)
 
-### 2. The Wings (Life Phases)
-* **Visual Atmosphere:** As a Curator, I want to create a Life Phase with a **Theme Color** so the app's mood matches that era of my life.
-* **Archiving Logic:** As a Curator, I want to "Close" a phase by adding an end date and a **Curator’s Statement** (Summary) to reflect on that chapter.
+### The Curator's Vault (Dashboard)
+![dashboard](./src/assets/dashboard.png)
 
-### 3. The Exhibits (Memories & Media)
-* **Curation:** As a Curator, I want to upload memories and label their **Origin** (where it came from) and **Size** (how big it looks in the gallery).
-* **Timeline:** As a Curator, I want to add a **Captured Date** to every memory so my artifacts are organized chronologically.
+### Profile 
+![Profile](./src/assets/profile.png)
 
-### 4. The Perspective (Reflections)
-* **Layering History:** As a Curator, I want to add **Reflections** to old memories to track how my thinking has changed over time without overwriting original data.
+### Exhibition - Lifephase
+![Profile](./src/assets/lifephase.png)
+
+### Artifact - Memories 
+![Profile](./src/assets/memories.png)
+
+
 
 ---
 
 ## 📂 Data Models & Schema
 
 ### Entity Relationship Diagram (ERD)
+
 ![Museum of Self ERD](./src/assets/erd.png)
 
 ### Wireframe of the Workflow
+
 ![Museum of Self Wireframe](./src/assets/wireframe.png)
 
+---
 
-### **Model 1: User (The Curator)**
-* `username` / `password`: Basic authentication (Bcrypt hashed).
-* `masterPin`: Hashed 4-6 digit code for Vault/Private access.
-* `bio` / `avatarUrl`: Profile personalization.
+## 📖 Description
 
-### **Model 2: LifePhase (The Rooms)**
-* `title`: Name of the life chapter.
-* `theme`: Color key (Gold, Olive, etc.) for the **Theme Engine**.
-* `summary`: Required only when `endDate` is set (Min. 20 characters).
-* `startDate` / `endDate`: Time range of the phase.
-
-### **Model 3: Memory (The Artifacts)**
-* `title`: Name of the memory.
-* `origin`: **Simple Categories** (*Self-Made, Gifted, Rediscovered, Soundtrack, Witnessed, etc.*).
-* `size`: **Grid Scale** (*Small, Medium, Large*).
-* `capturedDate`: The day the event actually happened.
-* `story`: The description or notes.
-
-### **Model 4: Reflection (The Perspective)**
-* `parentMemory`: ObjectId (Link back to a specific Memory).
-* `content`: The new thought or reflection text.
-* `createdAt`: Automatically tracked timestamp to show the date of reflection.
+**Museum of Self** is a digital preservation platform designed to help individuals curate their life journey. It centralizes the personal narrative into one platform, offering:
+* **Intentionality**: Focuses on deep reflection rather than social validation.
+* **Chronology**: Visualizes your life through distinct, valid time periods (Life Phases).
+* **Growth Tracking**: Measures personal development through a quantitative growth scale for every reflection.
 
 ---
 
-## 🔗 Data Relationships
+## 👥 Functionality
 
+### 🧑‍🎨 The Curator (User)
+* **Manage Exhibitions**: Create and finalize Life Phases with custom Curator Statements.
+* **Catalog Artifacts**: Upload memories with titles, stories, and mood tags (e.g., *Radiant, Melancholic, Victorious*).
+* **Deep Reflection**: Attach perspectives to artifacts categorized by *Growth, Gratitude, or Closure*.
+* **Media Support**: Seamlessly upload images, audio, and video via Cloudinary.
 
-
-1. **User 1:M LifePhases** * *One curator owns many life chapters.*
-2. **LifePhase 1:M Memories** * *A specific room acts as a container for many artifacts.*
-3. **Memory 1:M Reflections** * *A single memory can have a timeline of new thoughts "stacked" under it.*
 
 ---
 
+## 🚀 Getting Started
+
+Follow these steps to run the Museum of Self frontend locally:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/fatemamoh/Museum-of-self-Frontend
+cd Museum-of-self-Frontend
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Setup
+
+Create a `.env` file in the root directory and add:
+
+```env
+VITE_BACKEND_URL=http://localhost:3000
+```
+
+### 4. Start the Development Server
+
+```bash
+npm run dev
+```
+
+---
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+- **React (Vite)** — Fast component-based UI development  
+- **Tailwind CSS & DaisyUI** — Museum-inspired styling + accessible UI components  
+- **Lucide React** — Elegant curatorial iconography  
+- **Axios** — Secure API communication  
+
+### Backend Integration
+
+- **Node.js & Express** — API routing and application logic  
+- **MongoDB** — Persistent storage for memories, phases, and user data  
+- **Cloudinary** — Media processing, storage, and optimization  
+
+---
+
+## 🔐 Authentication & Authorization
+
+- **JWT Authentication**  
+  Secure Sign Up, Sign In, and Sign Out with JSON Web Tokens  
+
+- **Protected Routes**  
+  Curatorial dashboard and private wings guarded by frontend auth + backend middleware  
+
+- **Credential Recovery**  
+  Full password reset integration through themed email service  
+
+- **Data Security**  
+  Industry-standard password hashing with **Bcrypt**  
+
+---
+
+## 🔮 Next Steps (Future Enhancements)
+
+Planned expansions for the museum:
+
+- 🎞️ **Museum Tour Mode**  
+  Cinematic slideshow of memories from a chosen life phase  
+
+- 🎙️ **Audio Narrations**  
+  Record voice notes directly into an artifact  
+
+- 📄 **Curator Export**  
+  Export life phases and reflections into a digital PDF Exhibition Catalog  
+
+- 📊 **Advanced Analytics**  
+  Visualize mood trends and growth patterns across life eras  
+
+---
+
+## 📜 Attributions
+
+- Icons — **Lucide React**  
+- UI Styling — **Tailwind CSS & DaisyUI**  
+- Backend Integration — **Museum of Self API**  
+- Email Service — Powered by **Nodemailer**  
+
+---
+
+✨ *Museum of Self is not a social platform — it is a personal archive of meaning, memory, and growth.*
